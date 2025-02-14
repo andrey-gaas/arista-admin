@@ -10,21 +10,26 @@ type TInputProps = {
 	type?: 'text' | 'email' | 'password';
 	name: string;
 	className?: string;
+	error?: string;
 }
 
 function Input(props: TInputProps) {
-	const { value, onChange, label, placeholder, name, type="text", className } = props;
+	const { value, onChange, label, placeholder, name, type="text", className, error } = props;
 	return (
-		<label className={`${styles.container} ${className || ''}`}>
-			<span className={styles.label}>{label}</span>
+		<label className={`${styles.container} ${error && styles.error} ${className || ''}`}>
+			<span className={`${styles.label} ${error && styles.error}`}>{label}</span>
 			<input
 				value={value}
 				onChange={onChange}
-				className={styles.input}
+				className={`${styles.input} ${error && styles.error}`}
 				placeholder={placeholder}
 				name={name}
 				type={type}
 			/>
+			{
+				error &&
+				<p className={styles['error-message']}>{error}</p>
+			}
 		</label>
 	);
 }

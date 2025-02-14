@@ -11,6 +11,10 @@ class AuthStore {
   loading = false;
   error = "";
 
+  setError(value: string) {
+    this.error = value;
+  }
+
   async fetchLogin(email: string, password: string) {
     this.loading = true;
     this.error = "";
@@ -18,14 +22,15 @@ class AuthStore {
     try {
       const result = await authApi.login(email, password);
 
-      if (result.status === 200) {
+      if (result.status === 200 && result.data) {
         this.user = result.data;
-        this.loading = false;
+        localStorage.setItem('token', result.data.token);
       }
     } catch (error) {
       console.error(error);
-      this.loading = false;
       this.error = "Ошибка авторизации";
+    } finally {
+      this.loading = false;
     }
   }
 }

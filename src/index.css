@@ -20,4 +20,9 @@ body {
   --primary: #eb890e;
   --ozon: #005bf9;
   --wb: #a73afe;
+  --red: rgb(189, 59, 59);
+}
+
+* {
+  box-sizing: border-box;
 }
