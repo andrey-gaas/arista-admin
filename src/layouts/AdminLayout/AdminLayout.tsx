@@ -1,3 +1,4 @@
+import { Nav } from '../../components';
 import styles from './AdminLayout.module.css';
 
 type TAdminLayout = {
@@ -9,9 +10,7 @@ function AdminLayout(props: TAdminLayout) {
 
   return (
     <section className={styles.layout}>
-      <nav className={styles.nav}>
-        Навигация
-      </nav>
+      <Nav />
       <header className={styles.header}>
         Шапка страницы
       </header>

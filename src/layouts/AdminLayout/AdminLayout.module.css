@@ -8,11 +8,6 @@
   min-height: 100vh;
 }
 
-.nav {
-  grid-area: nav;
-  background-color: red;
-}
-
 .header {
   grid-area: header;
   background-color: green;

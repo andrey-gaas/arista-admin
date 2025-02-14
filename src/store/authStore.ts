@@ -15,6 +15,10 @@ class AuthStore {
     this.error = value;
   }
 
+  setUser(user: TUser | null) {
+    this.user = user;
+  }
+
   async fetchLogin(email: string, password: string) {
     this.loading = true;
     this.error = "";
@@ -23,7 +27,7 @@ class AuthStore {
       const result = await authApi.login(email, password);
 
       if (result.status === 200 && result.data) {
-        this.user = result.data;
+        this.setUser(result.data);
         localStorage.setItem('token', result.data.token);
       }
     } catch (error) {
@@ -32,6 +36,11 @@ class AuthStore {
     } finally {
       this.loading = false;
     }
+  }
+
+  logout() {    
+    localStorage.removeItem('token');
+    this.setUser(null);
   }
 }
 
