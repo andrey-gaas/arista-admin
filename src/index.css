@@ -1,0 +1,20 @@
+html,
+body,
+#root {
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+}
+
+:root {
+  --white: #fff;
+  --black: #333;
+  --background-color: #f4f3ec;
+}
