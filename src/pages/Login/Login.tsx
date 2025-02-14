@@ -59,7 +59,7 @@ function LoginPage() {
     await authStore.fetchLogin(form.email, form.password);
 
     if (authStore.user) {
-      navigate('/');
+      navigate('/orders');
     }
   }, [form]);
 
