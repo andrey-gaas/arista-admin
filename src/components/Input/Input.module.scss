@@ -1,0 +1,33 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.label {
+	font-size: 14px;
+	color: var(--black);
+	transition: color 0.3s;
+}
+
+.input {
+	margin-top: 5px;
+	padding: 10px 14px;
+	font-size: 16px;
+	color: var(--black);
+	border: 1px solid #ccc;
+	background-color: var(--background-color);
+	border-radius: 10px;
+	outline: none;
+	transition: border-color 0.3s, box-shadow 0.3s;
+
+	&:focus {
+		box-shadow: 0 0 3px 3px rgba(255, 165, 0, 0.1);
+		border-color: var(--primary);
+	}
+}
+
+/* Либо альтернативный способ */
+.container:focus-within .label {
+	color: var(--primary);
+}

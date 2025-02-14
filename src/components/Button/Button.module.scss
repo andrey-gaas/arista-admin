@@ -1,0 +1,21 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &.primary {
+    background-color: var(--primary);
+    color: var(--white);
+
+    &:hover {
+      filter: brightness(90%);
+    }
+  }
+}
