@@ -47,6 +47,10 @@ function Filters() {
     if (searchType.value === 'barcode') {
       ordersStore.fetchOrdersByBarcode(search);
     }
+
+    if (searchType.value === 'phone') {
+      ordersStore.fetchOrdersByPhone(search);
+    }
   }, [status, searchType, search]);
 
   return (

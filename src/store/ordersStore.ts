@@ -104,6 +104,29 @@ class OrdersStore {
       }
     }
   }
+
+  async fetchOrdersByPhone(phone: string, skip?: number, limit?: number) {
+    this.setLoading(true, 'list');
+    this.setError("", 'list');
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const result = await ordersApi.fetchListByPhone(token, { phone, skip, limit });
+
+        if (result.status === 200) {
+          console.log('result by phone', result);
+        } else {
+          this.setError("Ошибка загрузки списка заказов", 'list');
+        }
+      } catch(error) {
+        console.log(error);
+        this.setError("Ошибка загрузки списка заказов", 'list');
+      } finally {
+        this.setLoading(false, 'list');
+      }
+    }
+  }
 }
 
 const ordersStore = new OrdersStore();

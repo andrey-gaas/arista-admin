@@ -34,3 +34,10 @@ export type TOrderListByBarcodeQuery = {
   limit?: number;
 };
 export type TOrderListByBarcodeResult = TOrder[];
+
+export type TOrderListByPhoneQuery = {
+  phone: string;
+  skip?: number;
+  limit?: number;
+};
+export type TOrderListByPhoneResult = TOrder[];
