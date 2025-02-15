@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo } from 'react';
 
 import Icon from '../Icon/Icon';
 import styles from './Dropdown.module.scss';
@@ -10,7 +10,7 @@ type TOption = {
 
 type TDropdownProps = {
   options: TOption[];
-  onSelect: (value: string) => void;
+  onSelect: (value: TOption) => void;
   placeholder?: string;
   title: string;
   defaultValue?: TOption;
@@ -38,12 +38,12 @@ function Dropdown(props: TDropdownProps) {
 
   const handleSelect = (option: TOption) => {
     setSelected(option);
-    onSelect(option.value);
+    onSelect(option);
     setOpen(false);
   };
 
   return (
-    <div ref={dropdownRef} className={styles.dropdown} onClick={() => setOpen(value => !value)}>
+    <div ref={dropdownRef} className={`${styles.dropdown} ${isOpen && styles.open}`} onClick={() => setOpen(value => !value)}>
       <span className={styles.title}>{title}</span>
       <span className={styles.label}>{selected?.label || placeholder}</span>
       <Icon type="arrow" className={isOpen ? styles.open : styles.close} />
@@ -59,4 +59,4 @@ function Dropdown(props: TDropdownProps) {
   )
 }
 
-export default Dropdown;
+export default memo(Dropdown);

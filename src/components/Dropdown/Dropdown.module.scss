@@ -6,6 +6,11 @@
   border: 1px solid var(--light-gray);
   border-radius: 10px;
   cursor: pointer;
+  transition-duration: .3s;
+
+  &.open {
+    border-color: var(--primary);
+  }
 
   span {
     font-size: 14px;

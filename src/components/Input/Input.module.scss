@@ -21,7 +21,7 @@
 	font-size: 16px;
 	color: var(--black);
 	border: 1px solid #ccc;
-	background-color: var(--background-color);
+	background-color: var(--white);
 	border-radius: 10px;
 	outline: none;
 	transition: border-color 0.3s, box-shadow 0.3s;
@@ -31,12 +31,23 @@
 		border-color: var(--primary);
 	}
 
+	&.search {
+		padding-left: 40px;
+		background-image: url(/loupe.png);
+		background-repeat: no-repeat;
+		background-position: top 10px left 10px;
+		background-size: 20px;
+
+		&:focus {
+			background-image: url(/loupe-active.png);
+		}
+	}
+
 	&.error {
 		border-color: var(--red);
 	}
 }
 
-/* Либо альтернативный способ */
 .container:focus-within .label {
 	color: var(--primary);
 }
