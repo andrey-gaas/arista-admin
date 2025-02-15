@@ -19,5 +19,11 @@ export type TOrderListByStatusQuery = {
   skip?: number;
   limit?: number;
 };
-
 export type TOrderListResult = TOrder[];
+
+export type TOrderListByQRCodeQuery = {
+  code: string;
+  skip?: number;
+  limit?: number;
+};
+export type TOrderListByQRCodeResult = TOrder[];

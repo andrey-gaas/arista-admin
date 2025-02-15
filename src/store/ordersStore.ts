@@ -38,14 +38,40 @@ class OrdersStore {
 
     if (token) {
       try {
-        const result = await ordersApi.fetchListByStatus(token, {
-          status,
-          skip,
-          limit,
-        });
+        const result = await ordersApi.fetchListByStatus(token, { status, skip, limit });
 
-        console.log(result);
+        if (result.status) {
+          console.log('result by status', result);
+        } else {
+          this.setError("Ошибка загрузки списка заказов", 'list');
+        }
       } catch(error) {
+        console.log(error);
+        this.setError("Ошибка загрузки списка заказов", 'list');
+      } finally {
+        this.setLoading(false, 'list');
+      }
+    }
+  }
+
+  async fetchOrdersByQRCode(code: string, skip?: number, limit?: number) {
+    this.setLoading(true, 'list');
+    this.setError("", 'list');
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const result = await ordersApi.fetchListByQRCode(token, { code, skip, limit });
+
+        if (result.status === 200) {
+          console.log('result by qr-code', result);
+        }
+        else if (result.status === 404) {
+          this.setError("Пользователь не найден", 'list');
+        } else {
+          this.setError("Ошибка загрузки пользователя", 'list');
+        }
+      } catch (error) {
         console.log(error);
         this.setError("Ошибка загрузки списка заказов", 'list');
       } finally {

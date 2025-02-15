@@ -39,6 +39,10 @@ function Filters() {
         ordersStore.fetchOrdersByStatus() :
         ordersStore.fetchOrdersByStatus(status);
     }
+
+    if (searchType.value === 'client') {
+      ordersStore.fetchOrdersByQRCode(search);
+    }
   }, [status, searchType, search]);
 
   return (
