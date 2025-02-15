@@ -2,17 +2,31 @@ import { makeAutoObservable } from "mobx";
 import authApi from "../api/AuthApi";
 import { TUser } from "../types/auth";
 
+type TKeys = "login" | "profile";
+
 class AuthStore {
   constructor() {
     makeAutoObservable(this);
   }
 
   user: TUser | null = null;
-  loading = false;
-  error = "";
 
-  setError(value: string) {
-    this.error = value;
+  loading = {
+    login: false,
+    profile: false,
+  };
+
+  errors = {
+    login: "",
+    profile: "",
+  };
+
+  setLoading(value: boolean, key: TKeys) {
+    this.loading[key] = value;
+  }
+
+  setError(value: string, key: TKeys) {
+    this.errors[key] = value;
   }
 
   setUser(user: TUser | null) {
@@ -20,25 +34,54 @@ class AuthStore {
   }
 
   async fetchLogin(email: string, password: string) {
-    this.loading = true;
-    this.error = "";
+    this.setLoading(true, 'login');
+    this.setError("", 'login');
 
     try {
       const result = await authApi.login(email, password);
 
       if (result.status === 200 && result.data) {
-        this.setUser(result.data);
+        const user: TUser = {
+          name: result.data.name,
+          email: result.data.email,
+          role: result.data.role,
+        };
+        this.setUser(user);
         localStorage.setItem('token', result.data.token);
       }
     } catch (error) {
       console.error(error);
-      this.error = "Ошибка авторизации";
+      this.setError("Ошибка авторизации", 'login');
     } finally {
-      this.loading = false;
+      this.setLoading(false, 'login');
     }
   }
 
-  logout() {    
+  async fetchProfile() {
+    const token = localStorage.getItem('token');
+
+    if (token && !this.user) {
+      this.setLoading(true, "profile");
+      this.setError("", 'profile');
+
+      try {
+        const result = await authApi.fetchProfile(token);
+
+        if (result.status === 200 && result.data) {
+          this.setUser(result.data);
+        }
+
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка загрузки профиля", 'profile');
+        localStorage.removeItem('token');
+      } finally {
+        this.setLoading(false, 'profile');
+      }
+    }
+  }
+
+  logout() {
     localStorage.removeItem('token');
     this.setUser(null);
   }

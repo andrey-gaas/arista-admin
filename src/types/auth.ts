@@ -4,8 +4,11 @@ export type TUser = {
   name: string;
   email: string;
   role: TUserRole;
-  token: string;
 };
 
 // FetchTypes
-export type TLoginResult = TUser;
+export type TLoginResult = TUser & {
+  token: string;
+};
+
+export type TProfileResult = Omit<TUser, "token">;
