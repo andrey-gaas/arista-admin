@@ -10,5 +10,6 @@
 
 .main {
   grid-area: main;
-  background-color: blue;
+  padding: 20px;
+  background-color: var(--white);
 }
