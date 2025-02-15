@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import ordersApi from "../api/OrdersApi";
-import { TOrder } from '../types/orders';
+import { TOrder, TOrderStatus } from '../types/orders';
 
 type TOrdersType = "list";
 
@@ -31,14 +31,18 @@ class OrdersStore {
     this.orders = orders;
   }
 
-  async fetchOrders() {
+  async fetchOrdersByStatus(status?: TOrderStatus, skip?: number, limit?: number) {
     this.setLoading(true, 'list');
     this.setError("", 'list');
     const token = localStorage.getItem('token');
 
     if (token) {
       try {
-        const result = await ordersApi.fetchList(token, {});
+        const result = await ordersApi.fetchListByStatus(token, {
+          status,
+          skip,
+          limit,
+        });
 
         console.log(result);
       } catch(error) {

@@ -1,4 +1,7 @@
-import { useState, useCallback, ChangeEvent, useMemo } from 'react';
+import { useState, useCallback, ChangeEvent, useMemo, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import ordersStore from '../../../../store/ordersStore';
+import { TOrderStatus } from '../../../../types/orders';
 
 import { Dropdown, Input } from '../../../../components';
 import styles from './Filters.module.scss';
@@ -10,12 +13,12 @@ const searchTypes = [
   { value: 'phone', label: 'номеру телефона' }, // Поиск заказов по номеру телефона
 ];
 
-const statuses = ["added", "works", "delivered", "issued", "rejected", "all"];
+const statuses: TOrderStatus[] = ["added", "works", "delivered", "issued", "rejected", "all"];
 
 function Filters() {
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(searchTypes[0]);
-  const [status, setStatus] = useState(statuses[0]);
+  const [status, setStatus] = useState<TOrderStatus>(statuses[0]);
 
   const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -30,6 +33,14 @@ function Filters() {
     }
   }, [searchType]);
 
+  useEffect(() => {
+    if (searchType.value === 'status') {
+      status === 'all' ?
+        ordersStore.fetchOrdersByStatus() :
+        ordersStore.fetchOrdersByStatus(status);
+    }
+  }, [status, searchType, search]);
+
   return (
     <section className={styles['filters-container']}>
       <Dropdown
@@ -39,53 +50,59 @@ function Filters() {
         title="Заказы по:"
         defaultValue={searchType}
       />
-      <Input
-        type="search"
-        value={search}
-        onChange={handleSearch}
-        className={styles.input}
-        placeholder={searchPlaceholder}
-      />
-      <div className={styles.buttons}>
-        <button
-          className={`${styles.button} ${status === statuses[0] && styles.active}`}
-          onClick={() => setStatus(statuses[0])}
-        >
-          Добавлен
-        </button>
-        <button
-          className={`${styles.button} ${status === statuses[1] && styles.active}`}
-          onClick={() => setStatus(statuses[1])}
-        >
-          В работе
-        </button>
-        <button
-          className={`${styles.button} ${status === statuses[2] && styles.active}`}
-          onClick={() => setStatus(statuses[2])}
-        >
-          Готов к выдаче
-        </button>
-        <button
-          className={`${styles.button} ${status === statuses[3] && styles.active}`}
-          onClick={() => setStatus(statuses[3])}
-        >
-          Выдан
-        </button>
-        <button
-          className={`${styles.button} ${status === statuses[4] && styles.active}`}
-          onClick={() => setStatus(statuses[4])}
-        >
-          Отклонен
-        </button>
-        <button
-          className={`${styles.button} ${status === statuses[5] && styles.active}`}
-          onClick={() => setStatus(statuses[5])}
-        >
-          Все 
-        </button>
-      </div>
+      {
+        searchType.value !== 'status' &&
+          <Input
+            type="search"
+            value={search}
+            onChange={handleSearch}
+            className={styles.input}
+            placeholder={searchPlaceholder}
+          />
+      }
+      {
+        searchType.value === 'status' &&
+          <div className={styles.buttons}>
+            <button
+              className={`${styles.button} ${status === statuses[0] && styles.active}`}
+              onClick={() => setStatus(statuses[0])}
+            >
+              Добавлен
+            </button>
+            <button
+              className={`${styles.button} ${status === statuses[1] && styles.active}`}
+              onClick={() => setStatus(statuses[1])}
+            >
+              В работе
+            </button>
+            <button
+              className={`${styles.button} ${status === statuses[2] && styles.active}`}
+              onClick={() => setStatus(statuses[2])}
+            >
+              Готов к выдаче
+            </button>
+            <button
+              className={`${styles.button} ${status === statuses[3] && styles.active}`}
+              onClick={() => setStatus(statuses[3])}
+            >
+              Выдан
+            </button>
+            <button
+              className={`${styles.button} ${status === statuses[4] && styles.active}`}
+              onClick={() => setStatus(statuses[4])}
+            >
+              Отклонен
+            </button>
+            <button
+              className={`${styles.button} ${status === statuses[5] && styles.active}`}
+              onClick={() => setStatus(statuses[5])}
+            >
+              Все 
+            </button>
+          </div>
+      }
     </section>
   );
 }
 
-export default Filters;
+export default observer(Filters);

@@ -1,8 +1,8 @@
 import axios, { TAxiosResult } from './axiosInstance';
-import { TOrderListResult, TOrderListQuery } from '../types/orders';
+import { TOrderListResult, TOrderListByStatusQuery } from '../types/orders';
 
 class OrdersApi {
-  async fetchList(token: string, query: TOrderListQuery): Promise<TAxiosResult<TOrderListResult>> {
+  async fetchListByStatus(token: string, query: TOrderListByStatusQuery): Promise<TAxiosResult<TOrderListResult>> {
     return axios
       .get('/order/list', {
         params: query,
