@@ -91,6 +91,7 @@ function LoginPage() {
           />
           <Button
             className={styles.button}
+            disabled={authStore.loading.login}
           >
             Войти
           </Button>
@@ -100,4 +101,6 @@ function LoginPage() {
   );
 }
 
-export default observer(LoginPage);
+const ObserverLoginPage = observer(LoginPage);
+
+export default ObserverLoginPage;
