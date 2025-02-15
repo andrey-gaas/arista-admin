@@ -1,16 +1,11 @@
 .layout {
   display: grid;
   grid-template-columns: 300px 1fr;
-  grid-template-rows: 60px 1fr;
-  grid-template-areas: 
+  grid-template-rows: 80px 1fr;
+  grid-template-areas:
     "nav header"
     "nav main";
   min-height: 100vh;
-}
-
-.header {
-  grid-area: header;
-  background-color: green;
 }
 
 .main {

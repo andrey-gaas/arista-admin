@@ -1,19 +1,18 @@
-import { Nav } from '../../components';
+import { Nav, Header } from '../../components';
 import styles from './AdminLayout.module.css';
 
 type TAdminLayout = {
   children: React.ReactNode;
+  title: string;
 };
 
 function AdminLayout(props: TAdminLayout) {
-  const { children } = props;
+  const { children, title } = props;
 
   return (
     <section className={styles.layout}>
       <Nav />
-      <header className={styles.header}>
-        Шапка страницы
-      </header>
+      <Header title={title} />
       <main className={styles.main}>
         {children}
       </main>

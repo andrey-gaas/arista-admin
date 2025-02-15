@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  align-items: center;
+  grid-area: header;
+  padding: 10px 20px;
+  background-color: var(--light-gray);
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  color: var(--black);
+}
