@@ -22,32 +22,32 @@ function Nav() {
       <img src={logoSrc} alt="" className={styles.logo} />
       <ul className={styles.list}>
         <li>
-          <Link to="" className={ordersMatch ? styles.active : ""}>
+          <Link to="/orders" className={ordersMatch ? styles.active : ""}>
             Заказы
           </Link>
         </li>
         <li>
-          <Link to="" className={clientsMatch ? styles.active : ""}>
+          <Link to="/clients" className={clientsMatch ? styles.active : ""}>
             Клиенты
           </Link>
         </li>
         <li>
-          <Link to="" className={pvzMatch ? styles.active : ""}>
+          <Link to="/pvz" className={pvzMatch ? styles.active : ""}>
             ПВЗ
           </Link>
         </li>
         <li>
-          <Link to="" className={statisticsMatch ? styles.active : ""}>
+          <Link to="/statistics" className={statisticsMatch ? styles.active : ""}>
             Статистика
           </Link>
         </li>
         <li>
-          <Link to="" className={partnersMatch ? styles.active : ""}>
+          <Link to="/partners" className={partnersMatch ? styles.active : ""}>
             Партнеры
           </Link>
         </li>
         <li>
-          <Link to="" className={usersMatch ? styles.active : ""}>
+          <Link to="/users" className={usersMatch ? styles.active : ""}>
             Пользователи
           </Link>
         </li>
@@ -70,4 +70,6 @@ function Nav() {
   );
 }
 
-export default observer(Nav);
+const ObserverNav = observer(Nav);
+
+export default ObserverNav;

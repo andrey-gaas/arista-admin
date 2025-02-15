@@ -12,8 +12,6 @@ function PrivateRoute(props: TPrivateRouteProps) {
     return <p>Загрузка</p>;
   }
 
-  console.log('authStore.user', authStore.user, authStore.loading.profile);
-
   return authStore.user ? children : <Navigate to="/login" />;
 }
 
