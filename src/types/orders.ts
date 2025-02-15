@@ -27,3 +27,10 @@ export type TOrderListByQRCodeQuery = {
   limit?: number;
 };
 export type TOrderListByQRCodeResult = TOrder[];
+
+export type TOrderListByBarcodeQuery = {
+  barcode: string;
+  skip?: number;
+  limit?: number;
+};
+export type TOrderListByBarcodeResult = TOrder[];

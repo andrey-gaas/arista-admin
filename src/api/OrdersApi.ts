@@ -1,5 +1,9 @@
 import axios, { TAxiosResult } from './axiosInstance';
-import { TOrderListResult, TOrderListByStatusQuery, TOrderListByQRCodeQuery, TOrderListByQRCodeResult } from '../types/orders';
+import {
+  TOrderListResult, TOrderListByStatusQuery,
+  TOrderListByQRCodeQuery, TOrderListByQRCodeResult,
+  TOrderListByBarcodeQuery, TOrderListByBarcodeResult,
+} from '../types/orders';
 
 class OrdersApi {
   async fetchListByStatus(token: string, query: TOrderListByStatusQuery): Promise<TAxiosResult<TOrderListResult>> {
@@ -24,6 +28,16 @@ class OrdersApi {
       })
       .then((response) => response)
       .catch(({ response }) => ({ ...response }));
+  }
+
+  async fetchListByBarcode(token: string, query: TOrderListByBarcodeQuery): Promise<TAxiosResult<TOrderListByBarcodeResult>> {
+    return await axios
+      .get(`/order/code-order/${query.barcode}`, {
+        params: { skip: query.skip, limit: query.limit },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
   }
 }
 

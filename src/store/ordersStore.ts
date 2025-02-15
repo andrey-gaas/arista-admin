@@ -79,6 +79,31 @@ class OrdersStore {
       }
     }
   }
+
+  async fetchOrdersByBarcode(barcode: string, skip?: number, limit?: number) {
+    this.setLoading(true, 'list');
+    this.setError("", 'list');
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const result = await ordersApi.fetchListByBarcode(token, { barcode, skip, limit });
+
+        if (result.status === 200) {
+          console.log('result by barcode', result);
+        } else if (result.status === 404) {
+          this.setError("Заказ не найден", 'list');
+        } else {
+          this.setError("Ошибка загрузки списка заказов", 'list');
+        }
+      } catch(error) {
+        console.log(error);
+        this.setError("Ошибка загрузки списка заказов", 'list');
+      } finally {
+        this.setLoading(false, 'list');
+      }
+    }
+  }
 }
 
 const ordersStore = new OrdersStore();
