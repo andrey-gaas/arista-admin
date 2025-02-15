@@ -7,3 +7,9 @@
   margin-left: 20px;
   width: 300px;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  margin-top: 20px;
+}

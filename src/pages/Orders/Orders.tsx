@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback, useState, useMemo } from 'react';
 
 import { AdminLayout } from '../../layouts';
 import { Dropdown, Input } from '../../components';
+import { List } from './components';
 
 import styles from './Orders.module.scss';
 
@@ -46,6 +47,9 @@ function OrdersPage() {
           className={styles.input}
           placeholder={searchPlaceholder}
         />
+      </section>
+      <section className={styles.grid}>
+        <List />
       </section>
     </AdminLayout>
   );
