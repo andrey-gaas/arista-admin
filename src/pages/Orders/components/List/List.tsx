@@ -55,7 +55,11 @@ function List(props: TListProps) {
         {
           ordersStore.orders &&
           ordersStore.orders.map(order => (
-            <article key={order.id} className={styles.order} onClick={() => selectOrder(order._id)}>
+            <article
+              key={order.id}
+              className={`${styles.order} ${ordersStore.order && (ordersStore.order._id === order._id && styles.active)}`}
+              onClick={() => selectOrder(order._id)}
+            >
               <div className={styles['top-container']}>
                 <h1 className={styles['order-title']}>Заказ №{order.id}</h1>
                 <span className={`${styles.status} ${getOrderColor(order.status)}`}>{getStatus(order.status)}</span>
