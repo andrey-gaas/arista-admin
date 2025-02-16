@@ -1,11 +1,13 @@
-import { useEffect, memo } from 'react';
+import { useEffect, memo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import ordersStore from '../../../../store/ordersStore';
 
 import Info from '../Info/Info';
 import StatusPanel from '../StatusPanel/StatusPanel';
+import Products from '../Products/Products';
 import { Loader } from '../../../../components';
 import styles from './Order.module.scss';
+import { TProduct } from '../../../../types/orders';
 
 type TOrderProps = {
   id: string;
@@ -13,6 +15,13 @@ type TOrderProps = {
 
 function Order(props: TOrderProps) {
   const { id } = props;
+
+  const [products, setProducts] = useState<TProduct[]>([
+    { code: '123456', title: 'Товар 1' },
+    { code: '234567', title: 'Товар 2' },
+    { code: '345678', title: 'Товар 3' },
+  ]);
+
   const order = ordersStore.order;
 
   useEffect(() => {
@@ -40,6 +49,10 @@ function Order(props: TOrderProps) {
           <div className={styles['order-info-grid']}>
             <StatusPanel id={order._id} status={order.status} />
             <Info order={order} />
+            <Products
+              products={products}
+              setProducts={setProducts}
+            />
           </div>
         </div>
       }

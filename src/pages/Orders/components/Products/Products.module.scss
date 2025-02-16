@@ -1,0 +1,63 @@
+.container {
+  padding: 10px 0;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  margin-top: 10px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  border-right: 1px solid #ccc; 
+}
+
+.message {
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+  color: var(--black);
+}
+
+.button {
+  align-self: center;
+  margin-top: 10px;
+}
+
+.product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  color: var(--black);
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  transition-duration: .3s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: var(--light-gray);
+  }
+}
+
+.remove-button {
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

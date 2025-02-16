@@ -1,8 +1,9 @@
 import arrowSrc from '../../assets/images/arrow.svg';
-import increaseSrc from '../../assets/images/increase.png'
-import decreaseSrc from '../../assets/images/decrease.png'
+import increaseSrc from '../../assets/images/increase.png';
+import decreaseSrc from '../../assets/images/decrease.png';
+import trashSrc from '../../assets/images/trash.svg';
 
-type Type = 'arrow' | 'increase' | 'decrease';
+type Type = 'arrow' | 'increase' | 'decrease' | 'trash';
 
 interface IIcon {
   alt?: string;
@@ -19,6 +20,7 @@ function Icon(props: IIcon) {
     case 'arrow': src = arrowSrc; break;
     case 'increase': src = increaseSrc; break;
     case 'decrease': src = decreaseSrc; break;
+    case 'trash': src = trashSrc; break;
   }
 
   return (

@@ -27,6 +27,11 @@ export type TOrderFullData = TOrder & {
   address: TOrderAddress;
 };
 
+export type TProduct = {
+  code: string;
+  title: string;
+};
+
 // Fetch Types
 export type TOrderListByStatusQuery = {
   status?: TOrderStatus;
