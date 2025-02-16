@@ -4,6 +4,7 @@ import {
   TOrderListByQRCodeQuery, TOrderListByQRCodeResult,
   TOrderListByBarcodeQuery, TOrderListByBarcodeResult,
   TOrderListByPhoneQuery, TOrderListByPhoneResult,
+  TOrderQuery, TOrderResult,
 } from '../types/orders';
 
 class OrdersApi {
@@ -45,6 +46,17 @@ class OrdersApi {
     return await axios
       .get('/order/list', {
         params: query,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch(({ response }) => ({ ...response }));
+  }
+
+  async fetchOrder(token: string, query: TOrderQuery): Promise<TAxiosResult<TOrderResult>> {
+    return await axios
+      .get(`/order/item/${query._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

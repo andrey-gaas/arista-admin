@@ -2,22 +2,29 @@ import { makeAutoObservable } from "mobx";
 import ordersApi from "../api/OrdersApi";
 import { TOrder, TOrderStatus } from '../types/orders';
 
-type TOrdersType = "list";
+type TOrdersType = "list" | "order";
 
 class OrdersStore {
   orders: TOrder[] | null = null;
   timer: NodeJS.Timeout | null = null;
+  order: TOrder | null = null;
 
   loading = {
     list: false,
+    order: false,
   };
 
   errors = {
     list: "",
+    order: "",
   };
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  setOrder(order: TOrder | null) {
+    this.order = order;
   }
 
   setLoading(value: boolean, key: TOrdersType) {
@@ -181,6 +188,33 @@ class OrdersStore {
         }
       }, 500);
       this.setTimer(timer);
+    }
+  }
+
+  async fetchOrder(_id: string) {
+    this.setLoading(true, 'order');
+    this.setError("", 'order');
+    this.setOrder(null);
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const result = await ordersApi.fetchOrder(token, { _id });
+
+        if (result.status === 200) {
+          this.setOrder(result.data);
+        } else if (result.status === 404) {
+          this.setError("Заказ не найден", 'order');
+        } else {
+          this.setError("Ошибка загрузки заказа", 'order');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка загрузки заказа", 'order');
+      } finally {
+        this.setLoading(false, 'order');
+      }
     }
   }
 }

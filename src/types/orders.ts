@@ -45,3 +45,8 @@ export type TOrderListByPhoneQuery = {
   limit?: number;
 };
 export type TOrderListByPhoneResult = TOrder[];
+
+export type TOrderQuery = {
+  _id: string;
+};
+export type TOrderResult = TOrder;

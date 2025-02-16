@@ -1,0 +1,41 @@
+.container {
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+  overflow: hidden;
+}
+
+.message {
+  margin: 10px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.order {}
+
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  font-size: 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.order-info {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 16px;
+
+  &-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  &-data {
+    margin: 0;
+    margin-left: 20px;
+    font-size: 16px;
+  }
+}
