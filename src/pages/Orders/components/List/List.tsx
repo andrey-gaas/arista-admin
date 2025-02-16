@@ -1,3 +1,4 @@
+import { Loader } from '../../../../components';
 import styles from './List.module.scss';
 
 function List() {
@@ -5,7 +6,7 @@ function List() {
     <section className={styles.orders}>
       <h3 className={styles.title}>Список заказов</h3>
       <div className={styles.list}>
-        Список заказов
+        <Loader />
       </div>
     </section>
   );
