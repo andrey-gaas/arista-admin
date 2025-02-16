@@ -1,13 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import ordersApi from "../api/OrdersApi";
-import { TOrder, TOrderStatus } from '../types/orders';
+import { TOrder, TOrderStatus, TOrderFullData } from '../types/orders';
 
 type TOrdersType = "list" | "order";
 
 class OrdersStore {
   orders: TOrder[] | null = null;
   timer: NodeJS.Timeout | null = null;
-  order: TOrder | null = null;
+  order: TOrderFullData | null = null;
 
   loading = {
     list: false,
@@ -23,7 +23,7 @@ class OrdersStore {
     makeAutoObservable(this);
   }
 
-  setOrder(order: TOrder | null) {
+  setOrder(order: TOrderFullData | null) {
     this.order = order;
   }
 

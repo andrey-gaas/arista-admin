@@ -3,6 +3,12 @@ import { TUser } from './auth';
 export type TMarket = "ozon" | "wb";
 export type TOrderStatus = "added" | "works" | "delivered" | "issued" | "rejected" | "all";
 
+
+export type TOrderAddress = {
+  address: string;
+  _id: string;
+};
+
 export type TOrder = {
   _id: string;
   address: string;
@@ -15,6 +21,10 @@ export type TOrder = {
     phone: string;
     code: string;
   };
+};
+
+export type TOrderFullData = TOrder & {
+  address: TOrderAddress;
 };
 
 // Fetch Types
@@ -49,4 +59,4 @@ export type TOrderListByPhoneResult = TOrder[];
 export type TOrderQuery = {
   _id: string;
 };
-export type TOrderResult = TOrder;
+export type TOrderResult = TOrderFullData;

@@ -1,8 +1,13 @@
 .container {
+  min-width: 800px;
   background-color: var(--white);
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
   overflow: hidden;
+}
+
+.loader-container {
+  margin: 10px;
 }
 
 .message {
@@ -21,9 +26,12 @@
   border-bottom: 1px solid #ccc;
 }
 
+.order-info-grid {
+  display: grid;
+  grid-template-columns: minmax(500px, 1fr) 1fr;
+}
+
 .order-info {
-  display: flex;
-  align-items: center;
   padding: 10px;
   font-size: 16px;
 
@@ -35,7 +43,60 @@
 
   &-data {
     margin: 0;
-    margin-left: 20px;
+    margin-top: 5px;
     font-size: 16px;
+  }
+}
+
+.screenshot-container {
+  position: relative;
+  padding: 10px;
+
+  img {
+    margin-top: 10px;
+    width: 300px;
+  }
+
+  button {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: var(--white);
+    cursor: pointer;
+
+    img {
+      margin: 0;
+      width: 24px;
+    }
+  }
+}
+
+.screenshot-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .4);
+
+  .photo {
+    position: absolute;
+    left: calc(50% - 300px);
+    top: 20px;
+    height: 800px;
+    object-fit: contain;
+  }
+
+  button {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    cursor: pointer;
+
+    img {
+      width: 40px;
+    }
   }
 }
