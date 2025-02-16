@@ -60,3 +60,8 @@ export type TOrderQuery = {
   _id: string;
 };
 export type TOrderResult = TOrderFullData;
+
+export type TEditOrderQuery = {
+  status?: TOrderStatus;
+};
+export type TEditOrderResult = "OK";

@@ -1,4 +1,6 @@
-import { Button } from '../../../../components';
+import { observer } from 'mobx-react-lite';
+import ordersStore from '../../../../store/ordersStore';
+import { Button, Loader } from '../../../../components';
 import { TOrderStatus } from '../../../../types/orders';
 
 import styles from './StatusPanel.module.scss';
@@ -11,18 +13,62 @@ type TStatusPanelProps = {
 function StatusPanel(props: TStatusPanelProps) {
   const { id, status } = props;
 
+  const changeStatus = async (status: TOrderStatus, id: string) => {
+    await ordersStore.changeStatus(id, status);
+  };
+
   return (
     <section className={styles.container}>
-      <div className={styles.buttons}>
-        <button className={`${styles.button} ${status === 'added' && styles.active}`}>Добавлен</button>
-        <button className={`${styles.button} ${status === 'works' && styles.active}`}>В работе</button>
-        <button className={`${styles.button} ${status === 'delivered' && styles.active}`}>Готов к выдаче</button>
-        <button className={`${styles.button} ${status === 'issued' && styles.active}`}>Выдан</button>
-        <button className={`${styles.button} ${status === 'rejected' && styles.active}`}>Отклонен</button>
+      <div className={styles.status}>
+        <div className={styles.buttons}>
+          <button
+            className={`${styles.button} ${status === 'added' && styles.active}`}
+            onClick={() => changeStatus('added', id)}
+            disabled={ordersStore.loading.status}
+          >
+            Добавлен
+          </button>
+          <button
+            className={`${styles.button} ${status === 'works' && styles.active}`}
+            onClick={() => changeStatus('works', id)}
+            disabled={ordersStore.loading.status}
+          >
+            В работе
+          </button>
+          <button
+            className={`${styles.button} ${status === 'delivered' && styles.active}`}
+            onClick={() => changeStatus('delivered', id)}
+            disabled={ordersStore.loading.status}
+          >
+            Готов к выдаче
+          </button>
+          <button
+            className={`${styles.button} ${status === 'issued' && styles.active}`}
+            onClick={() => changeStatus('issued', id)}
+            disabled={ordersStore.loading.status}
+          >
+            Выдан
+          </button>
+          <button
+            className={`${styles.button} ${status === 'rejected' && styles.active}`}
+            onClick={() => changeStatus('rejected', id)}
+            disabled={ordersStore.loading.status}
+          >
+            Отклонен
+          </button>
+        </div>
+        {
+          ordersStore.loading.status &&
+          <div className={styles.loader}>
+            <Loader />
+          </div>
+        }
       </div>
       <Button className={styles['remove-button']} variant="danger">Удалить заказ</Button>
     </section>
   );
 }
 
-export default StatusPanel;
+const ObserverStatusPanel = observer(StatusPanel);
+
+export default ObserverStatusPanel;

@@ -4,6 +4,17 @@
   padding: 10px;
 }
 
+.status {
+  position: absolute;
+  display: flex;
+  align-items: center;
+}
+
+.loader {
+  margin-left: 10px;
+  transform: scale(.4);
+}
+
 .buttons {
   display: flex;
   align-items: center;
@@ -13,7 +24,7 @@
 }
 
 .button {
-  padding: 5px 10px;
+  padding: 10px 10px;
   font-size: 16px;
   border: none;
   border-left: 1px solid #ccc;

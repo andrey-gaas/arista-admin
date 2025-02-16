@@ -5,6 +5,7 @@ import {
   TOrderListByBarcodeQuery, TOrderListByBarcodeResult,
   TOrderListByPhoneQuery, TOrderListByPhoneResult,
   TOrderQuery, TOrderResult,
+  TEditOrderQuery, TEditOrderResult,
 } from '../types/orders';
 
 class OrdersApi {
@@ -61,6 +62,21 @@ class OrdersApi {
           Authorization: `Bearer ${token}`,
         },
       })
+      .then((response) => response)
+      .catch(({ response }) => ({ ...response }));
+  }
+
+  async fetchEditOrder(token: string, _id: string, body: TEditOrderQuery): Promise<TAxiosResult<TEditOrderResult>> {
+    return await axios
+      .put(
+        `/order/edit/${_id}`,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
       .then((response) => response)
       .catch(({ response }) => ({ ...response }));
   }

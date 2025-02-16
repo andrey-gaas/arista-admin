@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import ordersApi from "../api/OrdersApi";
 import { TOrder, TOrderStatus, TOrderFullData } from '../types/orders';
 
-type TOrdersType = "list" | "order";
+type TOrdersType = "list" | "order" | "status";
 
 class OrdersStore {
   orders: TOrder[] | null = null;
@@ -12,11 +12,13 @@ class OrdersStore {
   loading = {
     list: false,
     order: false,
+    status: false,
   };
 
   errors = {
     list: "",
     order: "",
+    status: "",
   };
 
   constructor() {
@@ -214,6 +216,35 @@ class OrdersStore {
         this.setError("Ошибка загрузки заказа", 'order');
       } finally {
         this.setLoading(false, 'order');
+      }
+    }
+  }
+
+  async changeStatus(_id: string, status: TOrderStatus) {
+    this.setLoading(true, 'status');
+    this.setError("", 'status');
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const result = await ordersApi.fetchEditOrder(token, _id, { status });
+
+        if (result.status === 200) {
+          if (this.order) {
+            this.setOrder({
+              ...this.order,
+              status,
+            });
+          }
+        } else {
+          this.setError("Ошибка редактирования заказа", 'status');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка редактирования заказа", 'status');
+      } finally {
+        this.setLoading(false, 'status');
       }
     }
   }
