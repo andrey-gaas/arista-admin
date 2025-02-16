@@ -12,3 +12,70 @@
   text-align: center;
   border-bottom: 1px solid var(--light-gray);
 }
+
+.loader-container {
+  padding: 20px;
+}
+
+.message {
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+.order {
+  padding: 10px;
+  border-bottom: 1px solid var(--light-gray);
+  transition-duration: .3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--primary);
+  }
+}
+
+.top-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--black);
+}
+
+.order-text {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  margin-top: 10px;
+  font-size: 16px;
+  color: var(--black);
+
+  span {
+    margin-left: auto;
+  }
+}
+
+.added {
+  color: var(--black);
+}
+
+.works {
+  color: var(--blue);
+}
+
+.delivered {
+  color: var(--green);
+}
+
+.issued {
+  color: var(--primary);
+}
+
+.rejected {
+  color: var(--red-orange);
+}

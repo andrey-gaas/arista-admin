@@ -35,9 +35,11 @@ function Filters() {
 
   useEffect(() => {
     if (searchType.value === 'status') {
-      status === 'all' ?
-        ordersStore.fetchOrdersByStatus() :
+      if (status === 'all') {
+        ordersStore.fetchOrdersByStatus();
+      } else {
         ordersStore.fetchOrdersByStatus(status);
+      }
     }
 
     if (searchType.value === 'client') {
@@ -64,57 +66,59 @@ function Filters() {
       />
       {
         searchType.value !== 'status' &&
-          <Input
-            type="search"
-            value={search}
-            onChange={handleSearch}
-            className={styles.input}
-            placeholder={searchPlaceholder}
-          />
+        <Input
+          type="search"
+          value={search}
+          onChange={handleSearch}
+          className={styles.input}
+          placeholder={searchPlaceholder}
+        />
       }
       {
         searchType.value === 'status' &&
-          <div className={styles.buttons}>
-            <button
-              className={`${styles.button} ${status === statuses[0] && styles.active}`}
-              onClick={() => setStatus(statuses[0])}
-            >
-              Добавлен
-            </button>
-            <button
-              className={`${styles.button} ${status === statuses[1] && styles.active}`}
-              onClick={() => setStatus(statuses[1])}
-            >
-              В работе
-            </button>
-            <button
-              className={`${styles.button} ${status === statuses[2] && styles.active}`}
-              onClick={() => setStatus(statuses[2])}
-            >
-              Готов к выдаче
-            </button>
-            <button
-              className={`${styles.button} ${status === statuses[3] && styles.active}`}
-              onClick={() => setStatus(statuses[3])}
-            >
-              Выдан
-            </button>
-            <button
-              className={`${styles.button} ${status === statuses[4] && styles.active}`}
-              onClick={() => setStatus(statuses[4])}
-            >
-              Отклонен
-            </button>
-            <button
-              className={`${styles.button} ${status === statuses[5] && styles.active}`}
-              onClick={() => setStatus(statuses[5])}
-            >
-              Все 
-            </button>
-          </div>
+        <div className={styles.buttons}>
+          <button
+            className={`${styles.button} ${status === statuses[0] && styles.active}`}
+            onClick={() => setStatus(statuses[0])}
+          >
+            Добавлен
+          </button>
+          <button
+            className={`${styles.button} ${status === statuses[1] && styles.active}`}
+            onClick={() => setStatus(statuses[1])}
+          >
+            В работе
+          </button>
+          <button
+            className={`${styles.button} ${status === statuses[2] && styles.active}`}
+            onClick={() => setStatus(statuses[2])}
+          >
+            Готов к выдаче
+          </button>
+          <button
+            className={`${styles.button} ${status === statuses[3] && styles.active}`}
+            onClick={() => setStatus(statuses[3])}
+          >
+            Выдан
+          </button>
+          <button
+            className={`${styles.button} ${status === statuses[4] && styles.active}`}
+            onClick={() => setStatus(statuses[4])}
+          >
+            Отклонен
+          </button>
+          <button
+            className={`${styles.button} ${status === statuses[5] && styles.active}`}
+            onClick={() => setStatus(statuses[5])}
+          >
+            Все
+          </button>
+        </div>
       }
     </section>
   );
 }
 
-export default observer(Filters);
+const ObserverFilters = Filters;
+
+export default ObserverFilters;

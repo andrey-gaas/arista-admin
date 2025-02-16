@@ -10,7 +10,10 @@ export type TOrder = {
   img: string;
   market: TMarket;
   status: TOrderStatus;
-  user: TUser;
+  user: TUser & {
+    phone: string;
+    code: string;
+  };
 };
 
 // Fetch Types
