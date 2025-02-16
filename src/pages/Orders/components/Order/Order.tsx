@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import ordersStore from '../../../../store/ordersStore';
 
 import Info from '../Info/Info';
+import StatusPanel from '../StatusPanel/StatusPanel';
 import { Loader } from '../../../../components';
 import styles from './Order.module.scss';
 
@@ -37,6 +38,7 @@ function Order(props: TOrderProps) {
             Данные заказа №{order.id}
           </header>
           <div className={styles['order-info-grid']}>
+            <StatusPanel id={order._id} status={order.status} />
             <Info order={order} />
           </div>
         </div>

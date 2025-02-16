@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.button {
+  padding: 5px 10px;
+  font-size: 16px;
+  border: none;
+  border-left: 1px solid #ccc;
+  background-color: var(--white);
+  cursor: pointer;
+
+  &:first-child {
+    border: none;
+  }
+
+  &.active {
+    background-color: var(--primary);
+  }
+}
+
+.remove-button {
+  margin-left: auto;
+  align-self: flex-end;
+}
