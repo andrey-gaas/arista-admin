@@ -4,6 +4,7 @@ export type TMarket = "ozon" | "wb";
 export type TOrderStatus = "added" | "works" | "delivered" | "issued" | "rejected" | "all";
 
 export type TOrder = {
+  _id: string;
   address: string;
   date: number;
   id: number;

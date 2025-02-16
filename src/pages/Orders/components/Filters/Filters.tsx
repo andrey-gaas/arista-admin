@@ -119,6 +119,6 @@ function Filters() {
   );
 }
 
-const ObserverFilters = Filters;
+const ObserverFilters = observer(Filters);
 
 export default ObserverFilters;

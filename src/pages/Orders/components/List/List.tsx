@@ -5,7 +5,13 @@ import { Loader } from '../../../../components';
 import styles from './List.module.scss';
 import { TOrderStatus } from '../../../../types/orders';
 
-function List() {
+type TListProps = {
+  selectOrder: (order: string) => void;
+}
+
+function List(props: TListProps) {
+  const { selectOrder } = props;
+
   const getStatus = (status: TOrderStatus): string => {
     switch (status) {
       case 'added': return 'Добавлен';
@@ -49,7 +55,7 @@ function List() {
         {
           ordersStore.orders &&
           ordersStore.orders.map(order => (
-            <article key={order.id} className={styles.order}>
+            <article key={order.id} className={styles.order} onClick={() => selectOrder(order._id)}>
               <div className={styles['top-container']}>
                 <h1 className={styles['order-title']}>Заказ №{order.id}</h1>
                 <span className={`${styles.status} ${getOrderColor(order.status)}`}>{getStatus(order.status)}</span>
