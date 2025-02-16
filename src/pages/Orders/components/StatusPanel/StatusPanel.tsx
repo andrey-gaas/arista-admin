@@ -17,6 +17,14 @@ function StatusPanel(props: TStatusPanelProps) {
     await ordersStore.changeStatus(id, status);
   };
 
+  const removeOrder = async (_id: string) => {
+    const result = confirm("Вы действительно хотите удалить заказ?");
+
+    if (result) {
+      await ordersStore.removeOrder(_id);
+    }
+  };
+
   return (
     <section className={styles.container}>
       <div className={styles.status}>
@@ -64,7 +72,7 @@ function StatusPanel(props: TStatusPanelProps) {
           </div>
         }
       </div>
-      <Button className={styles['remove-button']} variant="danger">Удалить заказ</Button>
+      <Button className={styles['remove-button']} variant="danger" onClick={() => removeOrder(id)}>Удалить заказ</Button>
     </section>
   );
 }

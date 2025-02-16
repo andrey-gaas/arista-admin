@@ -6,6 +6,7 @@ import {
   TOrderListByPhoneQuery, TOrderListByPhoneResult,
   TOrderQuery, TOrderResult,
   TEditOrderQuery, TEditOrderResult,
+  TRemoveOrderQuery, TRemoveOrderResult,
 } from '../types/orders';
 
 class OrdersApi {
@@ -79,6 +80,21 @@ class OrdersApi {
       )
       .then((response) => response)
       .catch(({ response }) => ({ ...response }));
+  }
+
+  async fetchRemoveOrder(token: string, query: TRemoveOrderQuery): Promise<TAxiosResult<TRemoveOrderResult>> {
+    return await axios
+      .delete(
+        `/order/remove/${query._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((response) => response)
+      .catch(({ response }) => ({ ...response }));
+
   }
 }
 

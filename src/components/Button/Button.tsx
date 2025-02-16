@@ -11,12 +11,13 @@ type TButtonProps = {
 }
 
 function Button(props: TButtonProps) {
-  const { children, className, variant = 'primary', disabled } = props;
+  const { children, className, variant = 'primary', disabled, onClick } = props;
 
   return (
     <button
       className={`${styles.button} ${styles[variant]} ${className}`}
       disabled={disabled}
+      onClick={onClick}
     >
       {children}
     </button>

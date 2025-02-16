@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import ordersApi from "../api/OrdersApi";
 import { TOrder, TOrderStatus, TOrderFullData } from '../types/orders';
 
-type TOrdersType = "list" | "order" | "status";
+type TOrdersType = "list" | "order" | "status" | "remove";
 
 class OrdersStore {
   orders: TOrder[] | null = null;
@@ -13,12 +13,14 @@ class OrdersStore {
     list: false,
     order: false,
     status: false,
+    remove: false,
   };
 
   errors = {
     list: "",
     order: "",
     status: "",
+    remove: "",
   };
 
   constructor() {
@@ -248,7 +250,34 @@ class OrdersStore {
       }
     }
   }
-}
+
+  async removeOrder(_id: string) {
+    this.setLoading(true, 'remove');
+    this.setError("", 'remove');
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const result = await ordersApi.fetchRemoveOrder(token, { _id });
+
+        if (result.status === 200) {
+          if (this.orders) {
+            this.setOrders(this.orders.filter(order => order._id !== _id));
+          }
+          this.setOrder(null);
+        } else {
+          this.setError("Ошибка удаления заказа", 'remove');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка удаления заказа", 'remove');
+      } finally {
+        this.setLoading(false, 'remove');
+      }
+    }
+  }
+};
 
 const ordersStore = new OrdersStore();
 

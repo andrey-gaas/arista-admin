@@ -65,3 +65,8 @@ export type TEditOrderQuery = {
   status?: TOrderStatus;
 };
 export type TEditOrderResult = "OK";
+
+export type TRemoveOrderQuery = {
+  _id: string;
+};
+export type TRemoveOrderResult = "OK";
