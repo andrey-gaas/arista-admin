@@ -16,11 +16,7 @@ type TOrderProps = {
 function Order(props: TOrderProps) {
   const { id } = props;
 
-  const [products, setProducts] = useState<TProduct[]>([
-    { code: '123456', title: 'Товар 1' },
-    { code: '234567', title: 'Товар 2' },
-    { code: '345678', title: 'Товар 3' },
-  ]);
+  const [products, setProducts] = useState<TProduct[]>([]);
 
   const order = ordersStore.order;
 
