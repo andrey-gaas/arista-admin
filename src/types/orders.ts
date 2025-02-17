@@ -28,6 +28,7 @@ export type TOrderFullData = TOrder & {
 };
 
 export type TProduct = {
+  id: number;
   code: string;
   title: string;
 };

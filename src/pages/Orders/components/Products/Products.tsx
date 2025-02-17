@@ -6,7 +6,7 @@ import styles from './Products.module.scss';
 
 type TProductsProps = {
   products: TProduct[];
-  setProducts: (products: TProduct[]) => void;
+  setProducts: React.Dispatch<React.SetStateAction<TProduct[]>>;
 };
 
 function Products(props: TProductsProps) {
@@ -20,7 +20,7 @@ function Products(props: TProductsProps) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const remove = (product: TProduct) => {
-    let newProducts = products.filter(item => item.code !== product.code);
+    let newProducts = products.filter(item => item.id !== product.id);
     newProducts = newProducts.map((item, i) => ({ ...item, title: `Товар №${i + 1}` }));
     setProducts(newProducts);
   };
@@ -36,7 +36,7 @@ function Products(props: TProductsProps) {
 
   const addProducts = useCallback(() => {
     let newProducts = products.concat(modalProducts);
-    newProducts = newProducts.map((item, i) => ({ ...item, title: `Товар №${i + 1}` }));
+    newProducts = newProducts.map((item, i) => ({ ...item, title: `Товар №${i + 1}`, id: i }));
     setProducts(newProducts);
     setOpen(false);
     setModalProducts([]);
@@ -83,7 +83,8 @@ function Products(props: TProductsProps) {
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
       if (value.trim() !== '') {
-        setModalProducts(prev => [...prev, { code: value, title: '' }]);
+        let i = 0;
+        setModalProducts(prev => [...prev.map(item => ({ ...item, id: i++ })), { code: value, title: '', id: i++ }]);
         setInputValue('');
       }
     }, 500);
@@ -98,7 +99,7 @@ function Products(props: TProductsProps) {
           {products.length > 0 && (
             <div>
               {products.map(product => (
-                <article key={product.code} className={styles.product}>
+                <article key={product.id} className={styles.product}>
                   <span>{product.title}</span> <span>Код: {product.code}</span>
                   <button className={styles['remove-button']} onClick={() => remove(product)}>
                     <Icon type="trash" />
