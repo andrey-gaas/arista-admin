@@ -32,6 +32,7 @@ function Info(props: TInfoProps) {
           <h6 className={styles['order-info-title']}>Информация о заказе:</h6>
           <p className={styles['order-info-data']}>Адрес ПВЗ Ариста: <b>{order.address.address}</b></p>
           <p className={styles['order-info-data']}>Дата создания: <b>{getDate(order.date)}</b></p>
+          <p className={styles['order-info-data']}>Торговая площадка: <b>{order.market === 'ozon' ? "OZON" : "Wildberries"}</b></p>
           <h6 className={styles['order-info-title']}>Информация о клиенте:</h6>
           <p className={styles['order-info-data']}>Клиент: <b>{order.user.phone}</b></p>
           <p className={styles['order-info-data']}>Код клиента: <b>{order.user.code}</b></p>
