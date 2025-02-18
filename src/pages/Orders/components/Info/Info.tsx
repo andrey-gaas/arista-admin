@@ -26,21 +26,24 @@ function Info(props: TInfoProps) {
   };
 
   return (
-    <div>
-      <section className={styles['order-info']}>
-        <h6 className={styles['order-info-title']}>Информация о заказе:</h6>
-        <p className={styles['order-info-data']}>Адрес ПВЗ Ариста: <b>{order.address.address}</b></p>
-        <p className={styles['order-info-data']}>Дата создания: <b>{getDate(order.date)}</b></p>
-        <p className={styles['order-info-data']}>Клиент: <b>{order.user.phone}</b></p>
-        <p className={styles['order-info-data']}>Код клиента: <b>{order.user.code}</b></p>
-      </section>
-      <section className={styles['screenshot-container']}>
-        <h6 className={styles['order-info-title']}>Скриншот заказа:</h6>
-        <img src={`${apiUrl}/admin${order.img}`} alt="" />
-        <button onClick={() => setPhoto(order.img)}>
-          <Icon type="increase" />
-        </button>
-      </section>
+    <>
+      <div className={styles.grid}>
+        <section className={styles['order-info']}>
+          <h6 className={styles['order-info-title']}>Информация о заказе:</h6>
+          <p className={styles['order-info-data']}>Адрес ПВЗ Ариста: <b>{order.address.address}</b></p>
+          <p className={styles['order-info-data']}>Дата создания: <b>{getDate(order.date)}</b></p>
+          <h6 className={styles['order-info-title']}>Информация о клиенте:</h6>
+          <p className={styles['order-info-data']}>Клиент: <b>{order.user.phone}</b></p>
+          <p className={styles['order-info-data']}>Код клиента: <b>{order.user.code}</b></p>
+        </section>
+        <section className={styles['screenshot-container']}>
+          <h6 className={styles['order-info-title']}>Скриншот заказа:</h6>
+          <img src={`${apiUrl}/admin${order.img}`} alt="" />
+          <button onClick={() => setPhoto(order.img)}>
+            <Icon type="increase" />
+          </button>
+        </section>
+      </div>
       {
         photo &&
         <div className={styles['screenshot-overlay']} onClick={() => setPhoto(null)}>
@@ -50,7 +53,7 @@ function Info(props: TInfoProps) {
           </button>
         </div>
       }
-    </div>
+    </>
   );
 }
 
