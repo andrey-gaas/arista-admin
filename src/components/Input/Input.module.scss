@@ -46,6 +46,11 @@
 	&.error {
 		border-color: var(--red);
 	}
+
+	&.disabled {
+		background-color: #eee;
+		cursor: not-allowed;
+	}
 }
 
 .container:focus-within .label {

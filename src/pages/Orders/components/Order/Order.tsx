@@ -5,6 +5,7 @@ import ordersStore from '../../../../store/ordersStore';
 import Info from '../Info/Info';
 import StatusPanel from '../StatusPanel/StatusPanel';
 import Products from '../Products/Products';
+import Price from '../Price/Price';
 import { Loader } from '../../../../components';
 import styles from './Order.module.scss';
 import { TProduct } from '../../../../types/orders';
@@ -49,6 +50,10 @@ function Order(props: TOrderProps) {
               <Products
                 products={products}
                 setProducts={setProducts}
+              />
+              <Price
+                marketplace={order.market}
+                productsCount={products.length}
               />
             </div>
           </div>
