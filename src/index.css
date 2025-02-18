@@ -28,6 +28,7 @@ body {
   --beige: #f4f3ec;
   --yellow: #fffba8;
   --red-orange: #D8261A;
+  --border-color: #ccc;
 }
 
 * {

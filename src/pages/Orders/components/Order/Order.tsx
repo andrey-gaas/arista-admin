@@ -42,13 +42,15 @@ function Order(props: TOrderProps) {
           <header className={styles.header}>
             Данные заказа №{order.id}
           </header>
-          <div className={styles['order-info-grid']}>
+          <div>
             <StatusPanel id={order._id} status={order.status} />
             <Info order={order} />
-            <Products
-              products={products}
-              setProducts={setProducts}
-            />
+            <div className={styles['products-and-price']}>
+              <Products
+                products={products}
+                setProducts={setProducts}
+              />
+            </div>
           </div>
         </div>
       }

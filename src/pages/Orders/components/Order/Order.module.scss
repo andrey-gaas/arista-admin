@@ -23,5 +23,12 @@
   justify-content: center;
   padding: 10px;
   font-size: 16px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.products-and-price {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 20px;
+  border-top: 1px solid var(--border-color);
 }

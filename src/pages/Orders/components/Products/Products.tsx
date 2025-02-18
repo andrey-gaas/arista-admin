@@ -93,24 +93,22 @@ function Products(props: TProductsProps) {
   return (
     <section className={styles.container}>
       <h3 className={styles.title}>Список товаров</h3>
-      <div className={styles.grid}>
-        <section className={styles.list}>
-          {products.length === 0 && <p className={styles.message}>Список пуст</p>}
-          {products.length > 0 && (
-            <div>
-              {products.map(product => (
-                <article key={product.id} className={styles.product}>
-                  <span>{product.title}</span> <span>Код: {product.code}</span>
-                  <button className={styles['remove-button']} onClick={() => remove(product)}>
-                    <Icon type="trash" />
-                  </button>
-                </article>
-              ))}
-            </div>
-          )}
-          <Button className={styles.button} onClick={toggleModalOpen}>Добавить товары</Button>
-        </section>
-      </div>
+      <section className={styles.list}>
+        {products.length === 0 && <p className={styles.message}>Список пуст</p>}
+        {products.length > 0 && (
+          <div>
+            {products.map(product => (
+              <article key={product.id} className={styles.product}>
+                <span>{product.title}</span> <span>Код: {product.code}</span>
+                <button className={styles['remove-button']} onClick={() => remove(product)}>
+                  <Icon type="trash" />
+                </button>
+              </article>
+            ))}
+          </div>
+        )}
+        <Button className={styles.button} onClick={toggleModalOpen}>Добавить товары</Button>
+      </section>
       <Modal title="Просканируйте товары" isOpen={isOpen} close={toggleModalOpen}>
         <p className={styles['modal-text']}>Товаров добавлено: {modalProducts.length}</p>
         <input
