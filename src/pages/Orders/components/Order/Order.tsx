@@ -18,6 +18,8 @@ function Order(props: TOrderProps) {
   const { id } = props;
 
   const [products, setProducts] = useState<TProduct[]>([]);
+  const [totalPrice, setTotalPrice] = useState('');
+  const [profit, setProfit] = useState<number | null>(null);
 
   const order = ordersStore.order;
 
@@ -54,6 +56,10 @@ function Order(props: TOrderProps) {
               <Price
                 marketplace={order.market}
                 productsCount={products.length}
+                totalPrice={totalPrice}
+                setTotalPrice={setTotalPrice}
+                profit={profit}
+                setProfit={setProfit}
               />
             </div>
           </div>

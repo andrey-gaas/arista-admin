@@ -8,6 +8,10 @@ import styles from './Price.module.scss';
 type TPriceProps = {
   marketplace: TMarket;
   productsCount: number;
+  totalPrice: string;
+  setTotalPrice: React.Dispatch<React.SetStateAction<string>>;
+  profit: number | null;
+  setProfit: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 type TExpensiveProduct = {
@@ -18,16 +22,14 @@ type TExpensiveProduct = {
 const ozonMaxPrice = 5000;
 
 function Price(props: TPriceProps) {
-  const { marketplace, productsCount } = props;
-  const [totalPrice, setTotalPrice] = useState('');
-  const [profit, setProfit] = useState<number | null>(null);
+  const { marketplace, productsCount, totalPrice, setTotalPrice, profit, setProfit } = props;
   const [expensiveProducts, setExpensiveProducts] = useState<TExpensiveProduct[]>([]);
   const [error, setError] = useState("");
 
   const handleChangePrice = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setTotalPrice(value);
-  }, []);
+  }, [setTotalPrice]);
 
   useEffect(() => {
     setError("");
@@ -70,7 +72,7 @@ function Price(props: TPriceProps) {
     } else {
       setProfit(null);
     }
-  }, [marketplace, totalPrice, expensiveProducts, productsCount]);
+  }, [marketplace, totalPrice, expensiveProducts, productsCount, setProfit]);
 
   const addExpensiveProduct = useCallback(() => {
     if (expensiveProducts.length < productsCount) {
