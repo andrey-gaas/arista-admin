@@ -42,9 +42,34 @@ function Order(props: TOrderProps) {
     }
   }, [order]);
 
-  const changeStatus = useCallback(async (status: TOrderStatus) => {
-    console.log(status);
-  }, []);
+  const changeStatus = useCallback(async (status: TOrderStatus, _id: string) => {
+    if (status === 'added') {
+      await ordersStore.changeStatus(_id, status);
+    }
+
+    if (status === 'works' && order?.status !== 'added') {
+      await ordersStore.changeStatus(_id, status);
+    }
+
+    if (status === 'works' && order?.status === 'added') {
+      if (products.length === 0) {
+        ordersStore.setError("Добавьте товары в заказ", "status");
+        return;
+      }
+
+      if (totalPrice === '') {
+        ordersStore.setError("Укажите общую стоимость заказа", "status");
+        return;
+      }
+
+      if (profit === null) {
+        ordersStore.setError("Укажите корректную стоимость товара", "status");
+        return;
+      }
+
+      alert("Все проверки пройдены");
+    }
+  }, [order, products, totalPrice, profit]);
 
   return (
     <section className={styles.container}>

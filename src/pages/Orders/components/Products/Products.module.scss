@@ -83,3 +83,11 @@
   left: calc(50% - 20px);
   transform: scale(.5);
 }
+
+.modal-error-button {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+  padding: 10px;
+  border-top: 1px solid var(--border-color);
+}

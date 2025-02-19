@@ -137,6 +137,10 @@ function Price(props: TPriceProps) {
         <p className={styles.profit}>Прибыль: {profit.toFixed(2)} ₽</p>
       }
       {
+        marketplace === 'ozon' &&
+        <p className={styles['ozon-message']}>Внимание! Если все товары превышают лимит {ozonMaxPrice} ₽, достаточно ввести общую стоимость заказа, не добавляя отдельные стоимости товаров.</p>
+      }
+      {
         error &&
         <p className={styles['error-message']}>{error}</p>
       }

@@ -1,4 +1,6 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, memo } from 'react';
+import { observer } from 'mobx-react-lite';
+import ordersStore from '../../../../store/ordersStore';
 
 import { Button, Icon, Modal, Loader } from '../../../../components';
 import { TProduct } from '../../../../types/orders';
@@ -41,6 +43,10 @@ function Products(props: TProductsProps) {
     setOpen(false);
     setModalProducts([]);
   }, [products, modalProducts, setProducts]);
+
+  const closeErrorModal = useCallback(() => {
+    ordersStore.setError("", "status");
+  }, []);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -123,8 +129,20 @@ function Products(props: TProductsProps) {
           <Button variant="danger" onClick={cancel}>Отмена</Button>
         </div>
       </Modal>
+      <Modal
+        title="Ошибка изменения статуса заказа"
+        isOpen={ordersStore.errors.status !== ""}
+        close={closeErrorModal}
+      >
+        <p className={styles['modal-text']}>{ordersStore.errors.status}</p>
+        <div className={styles['modal-error-button']}>
+          <Button variant="primary" onClick={closeErrorModal}>Закрыть окно</Button>
+        </div>
+      </Modal>
     </section>
   );
 }
 
-export default Products;
+const ObserverProducts = observer(Products);
+
+export default memo(ObserverProducts);
