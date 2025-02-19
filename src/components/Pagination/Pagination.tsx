@@ -23,7 +23,7 @@ function Pagination(props: TPaginationProps) {
     <section className={styles.container}>
       <button onClick={prev} className={styles.button}>Назад</button>
       <p className={styles.pages}>
-        {page + 1} / {Math.ceil(listSize / 10)}
+        {page + 1} / {Math.ceil(listSize / 10) || 1}
       </p>
       <button onClick={next} className={styles.button}>Вперед</button>
     </section>
