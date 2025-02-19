@@ -5,7 +5,7 @@ import styles from './Button.module.scss';
 type TButtonProps = {
   children: React.ReactNode;
   className?: string;
-  variant?: 'primary' | 'secondary' | 'danger';
+  variant?: 'primary' | 'success' | 'danger';
   disabled?: boolean;
   onClick?: () => void;
 }

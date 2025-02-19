@@ -27,4 +27,13 @@
       filter: brightness(90%);
     }
   }
+
+  &.success {
+    background-color: var(--green);
+    color: var(--white);
+
+    &:hover {
+      filter: brightness(90%);
+    }
+  }
 }

@@ -21,6 +21,7 @@ export type TOrder = {
     phone: string;
     code: string;
   };
+  message?: string;
 };
 
 export type TOrderFullData = TOrder & {
@@ -69,6 +70,7 @@ export type TOrderResult = TOrderFullData;
 
 export type TEditOrderQuery = {
   status?: TOrderStatus;
+  message?: string;
 };
 export type TEditOrderResult = "OK";
 

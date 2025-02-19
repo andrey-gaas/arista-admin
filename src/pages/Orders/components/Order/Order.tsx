@@ -1,4 +1,4 @@
-import { useEffect, memo, useState } from 'react';
+import { useEffect, memo, useState, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import ordersStore from '../../../../store/ordersStore';
 
@@ -6,6 +6,7 @@ import Info from '../Info/Info';
 import StatusPanel from '../StatusPanel/StatusPanel';
 import Products from '../Products/Products';
 import Price from '../Price/Price';
+import Message from '../Message/Message';
 import { Loader } from '../../../../components';
 import styles from './Order.module.scss';
 import { TProduct } from '../../../../types/orders';
@@ -30,6 +31,16 @@ function Order(props: TOrderProps) {
     setProducts([]);
     setProfit(null);
   }, [id]);
+
+  const setMessage = useCallback(async (value: string) => {
+    if (order) {
+      const result = await ordersStore.setMessage(value, order._id);
+
+      if (result) {
+        alert("Сообщение сохранено!");
+      }
+    }
+  }, [order]);
 
   return (
     <section className={styles.container}>
@@ -66,6 +77,12 @@ function Order(props: TOrderProps) {
                 setProfit={setProfit}
               />
             </div>
+            <Message
+              message={order.message || ""}
+              setMessage={setMessage}
+              loading={ordersStore.loading.message}
+              error={ordersStore.errors.message}
+            />
           </div>
         </div>
       }

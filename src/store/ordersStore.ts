@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import ordersApi from "../api/OrdersApi";
 import { TOrder, TOrderStatus, TOrderFullData } from '../types/orders';
 
-type TOrdersType = "list" | "order" | "status" | "remove";
+type TOrdersType = "list" | "order" | "status" | "remove" | "message";
 
 class OrdersStore {
   orders: TOrder[] | null = null;
@@ -13,6 +13,7 @@ class OrdersStore {
     list: false,
     order: false,
     status: false,
+    message: false,
     remove: false,
   };
 
@@ -20,6 +21,7 @@ class OrdersStore {
     list: "",
     order: "",
     status: "",
+    message: "",
     remove: "",
   };
 
@@ -274,6 +276,34 @@ class OrdersStore {
         this.setError("Ошибка удаления заказа", 'remove');
       } finally {
         this.setLoading(false, 'remove');
+      }
+    }
+  }
+
+  async setMessage(message: string, _id: string) {
+    this.setLoading(true, 'message');
+    this.setError("", 'message');
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        const result = await ordersApi.fetchEditOrder(token, _id, { message });
+
+        if (result.status === 200) {
+          return true;
+        }
+        if (result.status !== 200) {
+          this.setError("Ошибка сохранения сообщения", 'message');
+          return false;
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка сохранения сообщения", 'remove');
+      } finally {
+        console.log(123123);
+
+        this.setLoading(false, 'message');
       }
     }
   }
