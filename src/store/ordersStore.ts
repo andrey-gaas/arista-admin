@@ -301,8 +301,6 @@ class OrdersStore {
         console.log(error);
         this.setError("Ошибка сохранения сообщения", 'remove');
       } finally {
-        console.log(123123);
-
         this.setLoading(false, 'message');
       }
     }

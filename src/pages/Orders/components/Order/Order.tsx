@@ -9,7 +9,7 @@ import Price from '../Price/Price';
 import Message from '../Message/Message';
 import { Loader } from '../../../../components';
 import styles from './Order.module.scss';
-import { TProduct } from '../../../../types/orders';
+import { TOrderStatus, TProduct } from '../../../../types/orders';
 
 type TOrderProps = {
   id: string;
@@ -42,6 +42,10 @@ function Order(props: TOrderProps) {
     }
   }, [order]);
 
+  const changeStatus = useCallback(async (status: TOrderStatus) => {
+    console.log(status);
+  }, []);
+
   return (
     <section className={styles.container}>
       {
@@ -61,7 +65,7 @@ function Order(props: TOrderProps) {
             Данные заказа №{order.id}
           </header>
           <div>
-            <StatusPanel id={order._id} status={order.status} />
+            <StatusPanel id={order._id} status={order.status} changeStatus={changeStatus} />
             <Info order={order} />
             <div className={styles['products-and-price']}>
               <Products

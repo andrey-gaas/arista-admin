@@ -8,14 +8,11 @@ import styles from './StatusPanel.module.scss';
 type TStatusPanelProps = {
   id: string;
   status: TOrderStatus;
+  changeStatus: (status: TOrderStatus, _id: string) => void;
 }
 
 function StatusPanel(props: TStatusPanelProps) {
-  const { id, status } = props;
-
-  const changeStatus = async (status: TOrderStatus, id: string) => {
-    await ordersStore.changeStatus(id, status);
-  };
+  const { id, status, changeStatus } = props;
 
   const removeOrder = async (_id: string) => {
     const result = confirm("Вы действительно хотите удалить заказ?");

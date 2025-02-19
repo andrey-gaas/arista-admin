@@ -30,6 +30,11 @@
   border-left: 1px solid var(--border-color);
   background-color: var(--white);
   cursor: pointer;
+  transition-duration: .3s;
+
+  &:hover {
+    background-color: var(--yellow);
+  }
 
   &:first-child {
     border: none;
