@@ -17,20 +17,23 @@ type TOrderProps = {
 
 function Order(props: TOrderProps) {
   const { id } = props;
+  const order = ordersStore.order;
 
-  const [products, setProducts] = useState<TProduct[]>([]);
+  const [products, setProducts] = useState<TProduct[]>(order?.products || []);
   const [totalPrice, setTotalPrice] = useState('');
   const [profit, setProfit] = useState<number | null>(null);
 
-  const order = ordersStore.order;
 
   useEffect(() => {
-    ordersStore.fetchOrder(id);
-
-    setTotalPrice('');
-    setProducts([]);
-    setProfit(null);
+    fetchOrder(id);
   }, [id]);
+
+  const fetchOrder = async (id: string) => {
+    await ordersStore.fetchOrder(id);
+    setTotalPrice(ordersStore.order?.price.toString() || '0');
+    setProducts(ordersStore.order?.products || []);
+    setProfit(ordersStore.order?.profit || null);
+  };
 
   const setMessage = useCallback(async (value: string) => {
     if (order) {
@@ -44,11 +47,11 @@ function Order(props: TOrderProps) {
 
   const changeStatus = useCallback(async (status: TOrderStatus, _id: string) => {
     if (status === 'added') {
-      await ordersStore.changeStatus(_id, status);
+      await ordersStore.fetchEditOrder(_id, { status });
     }
 
     if (status === 'works' && order?.status !== 'added') {
-      await ordersStore.changeStatus(_id, status);
+      await ordersStore.fetchEditOrder(_id, { status });
     }
 
     if (status === 'works' && order?.status === 'added') {
@@ -67,7 +70,12 @@ function Order(props: TOrderProps) {
         return;
       }
 
-      await ordersStore.changeStatus(_id, status);
+      await ordersStore.fetchEditOrder(_id, {
+        products,
+        price: Number(totalPrice),
+        profit,
+        status,
+      });
     }
   }, [order, products, totalPrice, profit]);
 

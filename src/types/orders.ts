@@ -5,7 +5,7 @@ export type TOrderStatus = "added" | "works" | "delivered" | "issued" | "rejecte
 
 
 export type TOrderAddress = {
-  address: string;
+  address?: string;
   _id: string;
 };
 
@@ -22,10 +22,9 @@ export type TOrder = {
     code: string;
   };
   message?: string;
-};
-
-export type TOrderFullData = TOrder & {
-  address: TOrderAddress;
+  products: TProduct[];
+  price: number;
+  profit: number;
 };
 
 export type TProduct = {
@@ -66,13 +65,16 @@ export type TOrderListByPhoneResult = TOrder[];
 export type TOrderQuery = {
   _id: string;
 };
-export type TOrderResult = TOrderFullData;
+export type TOrderResult = TOrder;
 
 export type TEditOrderQuery = {
   status?: TOrderStatus;
+  products?: TProduct[];
+  price?: number;
+  profit?: number;
   message?: string;
 };
-export type TEditOrderResult = "OK";
+export type TEditOrderResult = TOrder;
 
 export type TRemoveOrderQuery = {
   _id: string;

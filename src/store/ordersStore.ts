@@ -1,13 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import ordersApi from "../api/OrdersApi";
-import { TOrder, TOrderStatus, TOrderFullData } from '../types/orders';
+import { TOrder, TOrderStatus, TEditOrderQuery } from '../types/orders';
 
-type TOrdersType = "list" | "order" | "status" | "remove" | "message";
+type TOrdersType = "list" | "order" | "status" | "remove" | "message" | "edit";
 
 class OrdersStore {
   orders: TOrder[] | null = null;
   timer: NodeJS.Timeout | null = null;
-  order: TOrderFullData | null = null;
+  order: TOrder | null = null;
 
   loading = {
     list: false,
@@ -15,6 +15,7 @@ class OrdersStore {
     status: false,
     message: false,
     remove: false,
+    edit: false,
   };
 
   errors = {
@@ -23,13 +24,14 @@ class OrdersStore {
     status: "",
     message: "",
     remove: "",
+    edit: "",
   };
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setOrder(order: TOrderFullData | null) {
+  setOrder(order: TOrder | null) {
     this.order = order;
   }
 
@@ -224,33 +226,31 @@ class OrdersStore {
     }
   }
 
-  async changeStatus(_id: string, status: TOrderStatus) {
-    this.setLoading(true, 'status');
-    this.setError("", 'status');
-
+  async fetchEditOrder(_id: string, body: TEditOrderQuery) {
     const token = localStorage.getItem('token');
 
     if (token) {
+      this.setError("", 'edit');
+      this.setLoading(true, 'edit');
+
       try {
-        const result = await ordersApi.fetchEditOrder(token, _id, { status });
+        const result = await ordersApi.fetchEditOrder(token, _id, body);
 
         if (result.status === 200) {
-          if (this.order) {
-            this.setOrder({
-              ...this.order,
-              status,
-            });
+          console.log('result.data', result.data);
+          this.setOrder(result.data);
+          if (this.orders) {
+            this.setOrders(this.orders?.filter(item => item._id !== _id));
           }
-        } else {
-          this.setError("Ошибка редактирования заказа", 'status');
         }
       } catch (error) {
         console.log(error);
-        this.setError("Ошибка редактирования заказа", 'status');
+        this.setError("Ошибка редактирования заказа", 'edit');
       } finally {
-        this.setLoading(false, 'status');
+        this.setLoading(false, 'edit');
       }
     }
+
   }
 
   async removeOrder(_id: string) {
