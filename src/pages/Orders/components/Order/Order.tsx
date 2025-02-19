@@ -25,6 +25,10 @@ function Order(props: TOrderProps) {
 
   useEffect(() => {
     ordersStore.fetchOrder(id);
+
+    setTotalPrice('');
+    setProducts([]);
+    setProfit(null);
   }, [id]);
 
   return (
