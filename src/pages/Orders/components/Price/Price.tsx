@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect, memo } from 'react';
 import { X } from 'lucide-react';
 
 import { Button, Input } from '../../../../components';
-import { TMarket } from '../../../../types/orders';
+import { TMarket, TOrderStatus } from '../../../../types/orders';
 import styles from './Price.module.scss';
 
 type TPriceProps = {
@@ -12,6 +12,7 @@ type TPriceProps = {
   setTotalPrice: React.Dispatch<React.SetStateAction<string>>;
   profit: number | null;
   setProfit: React.Dispatch<React.SetStateAction<number | null>>;
+  status: TOrderStatus;
 };
 
 type TExpensiveProduct = {
@@ -22,7 +23,7 @@ type TExpensiveProduct = {
 const ozonMaxPrice = 5000;
 
 function Price(props: TPriceProps) {
-  const { marketplace, productsCount, totalPrice, setTotalPrice, profit, setProfit } = props;
+  const { marketplace, productsCount, totalPrice, setTotalPrice, profit, setProfit, status } = props;
   const [expensiveProducts, setExpensiveProducts] = useState<TExpensiveProduct[]>([]);
   const [error, setError] = useState("");
 
@@ -105,7 +106,7 @@ function Price(props: TPriceProps) {
           label="Общая цена заказа"
           placeholder="Введите общую стоимость заказа"
           type="number"
-          disabled={productsCount === 0}
+          disabled={productsCount === 0 || status !== 'added'}
         />
       </div>
       {
@@ -129,6 +130,7 @@ function Price(props: TPriceProps) {
           && totalPrice
           && +totalPrice - expensiveProducts.reduce((sum, product) => sum + product.price, 0) > ozonMaxPrice
           && !expensiveProducts.find(item => item.price < ozonMaxPrice)
+          && status === 'added'
         ) &&
         <Button className={styles.button} onClick={addExpensiveProduct}>Добавить товар дороже {ozonMaxPrice} ₽</Button>
       }
@@ -137,7 +139,7 @@ function Price(props: TPriceProps) {
         <p className={styles.profit}>Прибыль: {profit.toFixed(2)} ₽</p>
       }
       {
-        marketplace === 'ozon' &&
+        (marketplace === 'ozon' && status === 'added') &&
         <p className={styles['ozon-message']}>Внимание! Если все товары превышают лимит {ozonMaxPrice} ₽, достаточно ввести общую стоимость заказа, не добавляя отдельные стоимости товаров.</p>
       }
       {

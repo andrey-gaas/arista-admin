@@ -113,6 +113,7 @@ function Order(props: TOrderProps) {
                 setTotalPrice={setTotalPrice}
                 profit={profit}
                 setProfit={setProfit}
+                status={order.status}
               />
             </div>
             <Message
