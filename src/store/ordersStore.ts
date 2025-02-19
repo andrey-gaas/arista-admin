@@ -237,7 +237,6 @@ class OrdersStore {
         const result = await ordersApi.fetchEditOrder(token, _id, body);
 
         if (result.status === 200) {
-          console.log('result.data', result.data);
           this.setOrder(result.data);
           if (this.orders) {
             this.setOrders(this.orders?.filter(item => item._id !== _id));

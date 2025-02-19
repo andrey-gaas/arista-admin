@@ -46,37 +46,45 @@ function Order(props: TOrderProps) {
   }, [order]);
 
   const changeStatus = useCallback(async (status: TOrderStatus, _id: string) => {
-    if (status === 'added') {
-      await ordersStore.fetchEditOrder(_id, { status });
-    }
-
-    if (status === 'works' && order?.status !== 'added') {
-      await ordersStore.fetchEditOrder(_id, { status });
-    }
-
-    if (status === 'works' && order?.status === 'added') {
-      if (products.length === 0) {
-        ordersStore.setError("Добавьте товары в заказ", "status");
+    if (order) {
+      if (status === order.status) {
         return;
       }
 
-      if (totalPrice === '') {
-        ordersStore.setError("Укажите общую стоимость заказа", "status");
-        return;
+      if (status === 'added') {
+        await ordersStore.fetchEditOrder(_id, { status });
       }
 
-      if (profit === null) {
-        ordersStore.setError("Укажите корректную стоимость товара", "status");
-        return;
+      if (status === 'works' && order.status !== 'added') {
+        await ordersStore.fetchEditOrder(_id, { status });
       }
 
-      await ordersStore.fetchEditOrder(_id, {
-        products,
-        price: Number(totalPrice),
-        profit,
-        status,
-      });
+      if (status === 'works' && order.status === 'added') {
+        if (products.length === 0) {
+          ordersStore.setError("Добавьте товары в заказ", "status");
+          return;
+        }
+
+        if (totalPrice === '') {
+          ordersStore.setError("Укажите общую стоимость заказа", "status");
+          return;
+        }
+
+        if (profit === null) {
+          ordersStore.setError("Укажите корректную стоимость товара", "status");
+          return;
+        }
+
+        await ordersStore.fetchEditOrder(_id, {
+          products,
+          price: Number(totalPrice),
+          profit,
+          status,
+        });
+      }
+
     }
+
   }, [order, products, totalPrice, profit]);
 
   return (
