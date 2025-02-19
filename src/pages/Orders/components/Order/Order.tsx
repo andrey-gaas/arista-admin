@@ -67,7 +67,7 @@ function Order(props: TOrderProps) {
         return;
       }
 
-      alert("Все проверки пройдены");
+      await ordersStore.changeStatus(_id, status);
     }
   }, [order, products, totalPrice, profit]);
 
