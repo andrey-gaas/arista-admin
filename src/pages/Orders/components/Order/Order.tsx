@@ -104,6 +104,7 @@ function Order(props: TOrderProps) {
               <Products
                 products={products}
                 setProducts={setProducts}
+                status={order.status}
               />
               <Price
                 marketplace={order.market}

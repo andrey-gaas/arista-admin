@@ -3,16 +3,17 @@ import { observer } from 'mobx-react-lite';
 import ordersStore from '../../../../store/ordersStore';
 
 import { Button, Icon, Modal, Loader } from '../../../../components';
-import { TProduct } from '../../../../types/orders';
+import { TOrderStatus, TProduct } from '../../../../types/orders';
 import styles from './Products.module.scss';
 
 type TProductsProps = {
   products: TProduct[];
   setProducts: React.Dispatch<React.SetStateAction<TProduct[]>>;
+  status: TOrderStatus;
 };
 
 function Products(props: TProductsProps) {
-  const { products, setProducts } = props;
+  const { products, setProducts, status } = props;
 
   const [isOpen, setOpen] = useState(false);
   const [modalProducts, setModalProducts] = useState<TProduct[]>([]);
@@ -106,14 +107,20 @@ function Products(props: TProductsProps) {
             {products.map(product => (
               <article key={product.id} className={styles.product}>
                 <span>{product.title}</span> <span>Код: {product.code}</span>
-                <button className={styles['remove-button']} onClick={() => remove(product)}>
-                  <Icon type="trash" />
-                </button>
+                {
+                  status === 'added' &&
+                  <button className={styles['remove-button']} onClick={() => remove(product)}>
+                    <Icon type="trash" />
+                  </button>
+                }
               </article>
             ))}
           </div>
         )}
-        <Button className={styles.button} onClick={toggleModalOpen}>Добавить товары</Button>
+        {
+          status === 'added' &&
+          <Button className={styles.button} onClick={toggleModalOpen}>Добавить товары</Button>
+        }
       </section>
       <Modal title="Просканируйте товары" isOpen={isOpen} close={toggleModalOpen}>
         <p className={styles['modal-text']}>Товаров добавлено: {modalProducts.length}</p>
