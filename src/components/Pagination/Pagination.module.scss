@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 0;
+  font-size: 16px;
+  color: var(--blue);
+  border: none;
+  background-color: transparent;
+  transition-duration: .3s;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--primary);
+  }
+}
+
+.pages {
+  font-size: 16px;
+  color: var(--black);
+}
