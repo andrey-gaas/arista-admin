@@ -20,3 +20,8 @@ export type TClientQuery = {
   id: string;
 };
 export type TClientResult = TClient;
+
+export type TClientEditBody = {
+  isBlocked: boolean,
+};
+export type TClientEditResult = TClient;

@@ -1,8 +1,8 @@
 import { makeAutoObservable } from "mobx";
 import clientsApi from "../api/ClientsApi";
-import { TClient, TClientsListQuery } from "../types/clients";
+import { TClient, TClientEditBody, TClientsListQuery } from "../types/clients";
 
-type TClientType = 'list' | 'client';
+type TClientType = 'list' | 'client' | 'edit';
 
 class ClientsStore {
   clients: TClient[] | null = null;
@@ -11,11 +11,13 @@ class ClientsStore {
   loading = {
     list: false,
     client: false,
+    edit: false,
   };
 
   errors = {
     list: "",
     client: "",
+    edit: "",
   };
 
   timer: NodeJS.Timeout | null = null;
@@ -100,6 +102,30 @@ class ClientsStore {
         this.setError("Ошибка загрузки пользователя", 'client');
       } finally {
         this.setLoading(false, 'client');
+      }
+    }
+  }
+
+  async fetchEditClient(id: string, body: TClientEditBody) {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.setError("", 'edit');
+      this.setLoading(true, 'edit');
+
+      try {
+        const result = await clientsApi.fetchEditClient(token, id, body);
+
+        if (result.status === 200) {
+          this.setClient(result.data);
+        } else {
+          this.setError("Ошибка редактирования пользователя", 'edit');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка редактирования пользователя", 'edit');
+      } finally {
+        this.setLoading(false, 'edit');
       }
     }
   }

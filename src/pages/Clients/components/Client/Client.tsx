@@ -1,4 +1,4 @@
-import { useEffect, memo, useState, useCallback } from 'react';
+import { useEffect, memo, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import clientsStore from '../../../../store/clientsStore';
 
@@ -17,6 +17,10 @@ function Client(props: TClientProps) {
   useEffect(() => {
     clientsStore.fetchClient(id);
   }, [id]);
+
+  const block = useCallback(() => {
+    clientsStore.fetchEditClient(id, { isBlocked: client?.isBlocked ? false : true });
+  }, [id, client]);
 
   return (
     <section className={styles.container}>
@@ -47,12 +51,12 @@ function Client(props: TClientProps) {
               Пароль: <b>{client.password}</b>
             </p>
             <div className={styles['block-button']}>
-              <Button>
+              {clientsStore.loading.edit && <Loader />}
+              <Button onClick={block} disabled={clientsStore.loading.edit}>
                 {
                   client.isBlocked ?
                     "Разблокировать" :
                     "Заблокировать"
-
                 }
               </Button>
             </div>
