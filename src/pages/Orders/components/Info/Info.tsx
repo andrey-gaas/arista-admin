@@ -26,9 +26,6 @@ function Info(props: TInfoProps) {
     return `${day}.${month}.${date.getFullYear()} ${hours}:${minutes}`;
   };
 
-  console.log(order.user);
-
-
   return (
     <>
       <div className={styles.grid}>

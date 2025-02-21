@@ -7,7 +7,7 @@ import styles from './Clients.module.scss';
 
 function ClientsPage() {
   const location = useLocation();
-  const [currentClient, setCurrentClient] = useState<string | null>(location.state.id || null);
+  const [currentClient, setCurrentClient] = useState<string | null>(location.state?.id || null);
 
   return (
     <AdminLayout title="Список клиентов">
