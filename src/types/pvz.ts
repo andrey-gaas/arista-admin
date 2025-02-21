@@ -8,7 +8,6 @@ export type TAristaPvz = {
   }[];
 };
 
-// Для `arista` включаем `ozon` и `wb`
 export type TAristaTypePvz = {
   _id: string;
   address: string;
@@ -17,12 +16,16 @@ export type TAristaTypePvz = {
   wb: TAristaPvz;
 };
 
-// Для других типов `ozon` и `wb` отсутствуют
 export type TOtherTypePvz = {
   _id: string;
   address: string;
-  type: Exclude<TPvzTypes, "arista">; // Исключаем "arista"
+  type: Exclude<TPvzTypes, "arista">;
 };
 
-// Объединяем оба типа
 export type TPvz = TAristaTypePvz | TOtherTypePvz;
+
+// Fetch Types
+export type TPvzListQuery = {
+  address?: string;
+};
+export type TPvzListResult = TPvz[];

@@ -1,9 +1,10 @@
 import { AdminLayout } from '../../layouts';
+import { Filters } from './components';
 
 function PVZPage() {
   return (
     <AdminLayout title="Пункты выдачи заказов">
-      <h1>ПУНТЫ ВЫДАЧИ ЗАКАЗОВ</h1>
+      <Filters />
     </AdminLayout>
   );
 }
