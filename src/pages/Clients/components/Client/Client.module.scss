@@ -16,7 +16,7 @@
   text-align: center;
 }
 
-.order {}
+.client {}
 
 .header {
   display: flex;
@@ -27,9 +27,24 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.products-and-price {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-top: 20px;
-  border-top: 1px solid var(--border-color);
+.client-info {
+  position: relative;
+  padding: 10px;
+}
+
+.block-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.info {
+  margin: 0;
+  margin-top: 10px;
+  font-size: 16px;
+  color: var(--black);
+
+  &:first-child {
+    margin-top: 0;
+  }
 }

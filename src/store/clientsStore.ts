@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import clientsApi from "../api/ClientsApi";
 import { TClient, TClientsListQuery } from "../types/clients";
 
-type TClientType = 'list';
+type TClientType = 'list' | 'client';
 
 class ClientsStore {
   clients: TClient[] | null = null;
@@ -10,10 +10,12 @@ class ClientsStore {
 
   loading = {
     list: false,
+    client: false,
   };
 
   errors = {
     list: "",
+    client: "",
   };
 
   timer: NodeJS.Timeout | null = null;
@@ -26,7 +28,7 @@ class ClientsStore {
     this.clients = clients;
   }
 
-  setClient(client: TClient) {
+  setClient(client: TClient | null) {
     this.client = client;
   }
 
@@ -74,8 +76,34 @@ class ClientsStore {
       this.setTimer(timer);
     }
   }
-};
 
+  async fetchClient(id: string) {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.setError("", 'client');
+      this.setLoading(true, 'client');
+      this.setClient(null);
+
+      try {
+        const result = await clientsApi.fetchClient(token, { id });
+
+        if (result.status === 200) {
+          this.setClient(result.data);
+        } else if (result.status === 404) {
+          this.setError("Клиент не найден", 'client');
+        } else {
+          this.setError("Ошибка загрузки пользователя", 'client');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка загрузки пользователя", 'client');
+      } finally {
+        this.setLoading(false, 'client');
+      }
+    }
+  }
+}
 const clientsStore = new ClientsStore();
 
 export default clientsStore;

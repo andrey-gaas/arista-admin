@@ -14,9 +14,6 @@ function List(props: TListProps) {
 
   const [page, setPage] = useState(0);
 
-  console.log(clientsStore.loading);
-
-
   return (
     <div>
       <section className={styles.clients}>
@@ -41,7 +38,7 @@ function List(props: TListProps) {
             clientsStore.clients.slice(page * 6, page * 6 + 6).map(client => (
               <article
                 key={client._id}
-                className={`${styles.client}`}
+                className={`${styles.client} ${clientsStore.client && (clientsStore.client._id === client._id && styles.active)}`}
                 onClick={() => selectClient(client._id)}
               >
                 <p className={styles['client-text']}>ФИО: <b>{client.name}</b></p>

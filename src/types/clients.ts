@@ -14,5 +14,9 @@ export type TClientsListQuery = {
   code?: string;
   phone?: string;
 };
-
 export type TClientsListResult = TClient[];
+
+export type TClientQuery = {
+  id: string;
+};
+export type TClientResult = TClient;
