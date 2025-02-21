@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import ordersStore from '../../../../store/ordersStore';
 
@@ -36,6 +36,12 @@ function List(props: TListProps) {
       default: return '';
     }
   }
+
+  useEffect(() => {
+    if (ordersStore.loading.list) {
+      setPage(0);
+    }
+  }, [ordersStore.loading.list]);
 
   return (
     <div>

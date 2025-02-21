@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import clientsStore from '../../../../store/clientsStore';
 
@@ -13,6 +13,12 @@ function List(props: TListProps) {
   const { selectClient } = props;
 
   const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    if (clientsStore.loading.list) {
+      setPage(0);
+    }
+  }, [clientsStore.loading.list])
 
   return (
     <div>
