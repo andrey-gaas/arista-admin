@@ -1,9 +1,10 @@
 import { AdminLayout } from '../../layouts';
+import { Filters } from './components';
 
 function ClientsPage() {
   return (
     <AdminLayout title="Список клиентов">
-      <h1>КЛИЕНТЫ</h1>
+      <Filters />
     </AdminLayout>
   );
 }
