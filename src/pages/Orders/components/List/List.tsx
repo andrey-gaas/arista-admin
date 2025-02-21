@@ -41,7 +41,7 @@ function List(props: TListProps) {
     <div>
       <section className={styles.orders}>
         <h3 className={styles.title}>Список заказов</h3>
-        <div className={styles.list}>
+        <div>
           {
             ordersStore.loading.list &&
             <div className={styles['loader-container']}>
@@ -83,6 +83,7 @@ function List(props: TListProps) {
           listSize={ordersStore.orders.length}
           page={page}
           setPage={setPage}
+          count={10}
         />
       }
     </div>
