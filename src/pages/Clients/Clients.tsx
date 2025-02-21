@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { AdminLayout } from '../../layouts';
 import { Filters, List, Client } from './components';
 import styles from './Clients.module.scss';
 
 function ClientsPage() {
-  const [currentClient, setCurrentClient] = useState<string | null>(null);
+  const location = useLocation();
+  const [currentClient, setCurrentClient] = useState<string | null>(location.state.id || null);
 
   return (
     <AdminLayout title="Список клиентов">

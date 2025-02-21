@@ -11,7 +11,7 @@ export type TOrderAddress = {
 
 export type TOrder = {
   _id: string;
-  address: string;
+  address: TOrderAddress;
   date: number;
   id: number;
   img: string;

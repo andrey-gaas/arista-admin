@@ -1,11 +1,12 @@
 import { useState, memo } from "react";
+import { Link } from "react-router-dom";
 
 import { Icon } from '../../../../components';
 import styles from './Info.module.scss';
-import { TOrderFullData } from "../../../../types/orders";
+import { TOrder } from "../../../../types/orders";
 
 type TInfoProps = {
-  order: TOrderFullData;
+  order: TOrder;
 };
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -25,6 +26,9 @@ function Info(props: TInfoProps) {
     return `${day}.${month}.${date.getFullYear()} ${hours}:${minutes}`;
   };
 
+  console.log(order.user);
+
+
   return (
     <>
       <div className={styles.grid}>
@@ -36,6 +40,7 @@ function Info(props: TInfoProps) {
           <h6 className={styles['order-info-title']}>Информация о клиенте:</h6>
           <p className={styles['order-info-data']}>Клиент: <b>{order.user.phone}</b></p>
           <p className={styles['order-info-data']}>Код клиента: <b>{order.user.code}</b></p>
+          <Link to="/clients" className={styles['link-profile']} state={{ id: order.user._id }}>Открыть профиль</Link>
         </section>
         <section className={styles['screenshot-container']}>
           <h6 className={styles['order-info-title']}>Скриншот заказа:</h6>

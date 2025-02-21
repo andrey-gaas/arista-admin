@@ -1,6 +1,7 @@
 export type TUserRole = "admin";
 
 export type TUser = {
+  _id: string;
   name: string;
   email: string;
   role: TUserRole;
