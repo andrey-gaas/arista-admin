@@ -1,17 +1,21 @@
 import { useState } from 'react';
 
 import { AdminLayout } from '../../layouts';
-import { Filters, List } from './components';
+import { Filters, List, Pvz } from './components';
 import styles from './PVZ.module.scss';
 
 function PVZPage() {
-  const [currentClient, setCurrentClient] = useState<string | null>(null);
+  const [currentPvz, setCurrentPvz] = useState<string | null>(null);
 
   return (
     <AdminLayout title="Пункты выдачи заказов">
       <Filters />
       <div className={styles.grid}>
-        <List selectPvz={setCurrentClient} />
+        <List selectPvz={setCurrentPvz} />
+        {
+          currentPvz &&
+          <Pvz id={currentPvz} />
+        }
       </div>
     </AdminLayout>
   );

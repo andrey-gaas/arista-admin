@@ -1,6 +1,7 @@
 import axios, { TAxiosResult } from './axiosInstance';
 import {
   TPvzListQuery, TPvzListResult,
+  TPvzResult,
 } from '../types/pvz';
 
 class PvzApi {
@@ -8,6 +9,17 @@ class PvzApi {
     return axios
       .get('/pvz/list', {
         params: query,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch(({ response }) => ({ ...response }));
+  }
+
+  async fetchPvz(token: string, id: string): Promise<TAxiosResult<TPvzResult>> {
+    return axios
+      .get(`/pvz/item/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

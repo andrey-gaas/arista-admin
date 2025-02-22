@@ -29,3 +29,5 @@ export type TPvzListQuery = {
   address?: string;
 };
 export type TPvzListResult = TPvz[];
+
+export type TPvzResult = TPvz;

@@ -2,17 +2,20 @@ import { makeAutoObservable } from "mobx";
 import { TPvz } from '../types/pvz';
 import pvzApi from '../api/PvzApi';
 
-type TPvzTypes = "list";
+type TPvzTypes = "list" | "pvz";
 
 class PVZStore {
   list: TPvz[] | null = null;
+  pvz: TPvz | null = null;
 
   loading = {
     list: false,
+    pvz: false,
   };
 
   errors = {
     list: "",
+    pvz: "",
   };
 
   constructor() {
@@ -29,6 +32,10 @@ class PVZStore {
 
   setList(list: TPvz[] | null) {
     this.list = list;
+  }
+
+  setPvz(pvz: TPvz | null) {
+    this.pvz = pvz;
   }
 
   async fetchList(search: string) {
@@ -52,6 +59,31 @@ class PVZStore {
         this.setError("Ошибка загрузки списка пунктов выдачи заказов", 'list')
       } finally {
         this.setLoading(false, 'list');
+      }
+    }
+  }
+
+  async fetchPvz(id: string) {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.setLoading(true, "pvz");
+      this.setError("", "pvz");
+      this.setPvz(null);
+
+      try {
+        const result = await pvzApi.fetchPvz(token, id);
+
+        if (result.status === 200) {
+          this.setPvz(result.data);
+        } else {
+          this.setError("Ошибка загрузки пункта выдачи заказа", 'pvz')
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка загрузки пункта выдачи заказа", 'pvz');
+      } finally {
+        this.setLoading(false, 'pvz');
       }
     }
   }

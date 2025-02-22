@@ -1,0 +1,66 @@
+.container {
+  min-width: 800px;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+  overflow: hidden;
+}
+
+.loader-container {
+  margin: 10px;
+}
+
+.message {
+  margin: 10px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.content {
+  position: relative;
+  padding: 10px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  button {
+    align-self: flex-end;
+    margin-left: 10px;
+  }
+}
+
+.input {
+  width: 600px;
+}
+
+.input-loader {
+  margin-left: 10px;
+  transform: scale(.5);
+  align-self: flex-end;
+}
+
+.cells {
+  margin-top: 40px;
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
