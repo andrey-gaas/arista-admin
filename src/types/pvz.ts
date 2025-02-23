@@ -1,7 +1,7 @@
 export type TPvzTypes = "arista" | "ozon" | "wb";
 
 export type TAristaPvz = {
-  max: string;
+  max: number;
   cells: {
     number: number;
     order: string;
@@ -31,3 +31,11 @@ export type TPvzListQuery = {
 export type TPvzListResult = TPvz[];
 
 export type TPvzResult = TPvz;
+
+export type TPvzEditQuery = {
+  type?: TPvzTypes;
+  address?: string;
+  ozon?: number;
+  wb?: number;
+};
+export type TPvzEditResult = TPvz;

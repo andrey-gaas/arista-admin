@@ -13,8 +13,8 @@ function Pvz(props: TPvzProps) {
   const { id } = props;
 
   const [address, setAddress] = useState("");
-  const [ozonCells, setOzonCells] = useState("");
-  const [wbCells, setWbCells] = useState("");
+  const [ozonCells, setOzonCells] = useState(0);
+  const [wbCells, setWbCells] = useState(0);
 
   const pvz = pvzStore.pvz;
 
@@ -33,10 +33,22 @@ function Pvz(props: TPvzProps) {
     }
   }, [pvz]);
 
+  const savePvz = useCallback(async () => {
+    if (pvz) {
+      const body = {
+        ...(pvz.address !== address) && { address },
+        ...((pvz.type === 'arista' && pvz.ozon.max !== ozonCells) && { ozon: +ozonCells }),
+        ...((pvz.type === 'arista' && pvz.wb.max !== wbCells) && { wb: +wbCells }),
+      };
+
+      await pvzStore.fetchEditPvz(pvz?._id, body);
+    }
+  }, [pvz, address, ozonCells, wbCells]);
+
   return (
     <section className={styles.container}>
       {
-        pvzStore.loading.pvz &&
+        (pvzStore.loading.pvz) &&
         <div className={styles['loader-container']}>
           <Loader />
         </div>
@@ -52,63 +64,52 @@ function Pvz(props: TPvzProps) {
             Данные пункта выдачи товаров
           </header>
           <section className={styles.content}>
-            <div className={styles['input-container']}>
-              <Input
-                value={address}
-                onChange={event => setAddress(event.target.value)}
-                placeholder="Введите адрес ПВЗ"
-                label="Адрес ПВЗ"
-                className={styles.input}
-              />
-              {
-                pvz.address !== address &&
-                <Button>Сохранить</Button>
-              }
-              <div className={styles['input-loader']}>
-                <Loader />
-              </div>
-            </div>
+            <Input
+              value={address}
+              onChange={event => setAddress(event.target.value)}
+              placeholder="Введите адрес ПВЗ"
+              label="Адрес ПВЗ"
+              className={styles.input}
+            />
             {
               pvz.type === 'arista' &&
               <section className={styles.cells}>
                 <h4 className={styles['cell-title']}>Ячейки ПВЗ</h4>
-                <div className={styles['input-container']}>
-                  <Input
-                    value={ozonCells}
-                    onChange={event => setOzonCells(event.target.value)}
-                    placeholder="Введите количество ячеек Ozon"
-                    label="Ячейки Ozon"
-                    className={styles.input}
-                    type="number"
-                  />
-                  {
-                    pvz.ozon.max !== ozonCells &&
-                    <Button>Сохранить</Button>
-                  }
-                  <div className={styles['input-loader']}>
-                    <Loader />
-                  </div>
-                </div>
-                <div className={styles['input-container']}>
-                  <Input
-                    value={wbCells}
-                    onChange={event => setWbCells(event.target.value)}
-                    placeholder="Введите количество ячеек WildBerries"
-                    label="Ячейки WildBerries"
-                    className={styles.input}
-                    type="number"
-                  />
-                  {
-                    pvz.wb.max !== wbCells &&
-                    <Button>Сохранить</Button>
-                  }
-                  <div className={styles['input-loader']}>
-                    <Loader />
-                  </div>
-                </div>
+                <Input
+                  value={ozonCells.toString()}
+                  onChange={event => setOzonCells(+event.target.value)}
+                  placeholder="Введите количество ячеек Ozon"
+                  label="Ячейки Ozon"
+                  className={styles.input}
+                  type="number"
+                />
+                <Input
+                  value={wbCells.toString()}
+                  onChange={event => setWbCells(+event.target.value)}
+                  placeholder="Введите количество ячеек WildBerries"
+                  label="Ячейки WildBerries"
+                  className={styles.input}
+                  type="number"
+                />
               </section>
             }
             <Button variant="danger" className={styles['delete-button']}>Удалить ПВЗ</Button>
+            {
+              (
+                pvz.address !== address
+                || (pvz.type === 'arista' && +pvz.ozon.max !== +ozonCells)
+                || (pvz.type === 'arista' && +pvz.wb.max !== +wbCells)
+              ) &&
+              <div className={styles['save-button-container']}>
+                <Button variant="success" onClick={savePvz} disabled={pvzStore.loading.edit}>Сохранить изменения</Button>
+                {
+                  pvzStore.loading.edit &&
+                  <div className={styles['save-loader']}>
+                    <Loader />
+                  </div>
+                }
+              </div>
+            }
           </section>
         </div>
       }

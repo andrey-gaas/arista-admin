@@ -30,23 +30,13 @@
   padding: 10px;
 }
 
-.input-container {
-  display: flex;
-  align-items: center;
+.input {
   margin-top: 20px;
+  width: 600px;
 
   &:first-child {
     margin-top: 0;
   }
-
-  button {
-    align-self: flex-end;
-    margin-left: 10px;
-  }
-}
-
-.input {
-  width: 600px;
 }
 
 .input-loader {
@@ -63,4 +53,15 @@
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.save-button-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.save-loader {
+  margin-left: 10px;
+  transform: scale(.5);
 }

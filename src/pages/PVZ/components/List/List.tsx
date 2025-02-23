@@ -44,7 +44,7 @@ function List(props: TListProps) {
             pvzStore.list.slice(page * 10, page * 10 + 10).map(pvz => (
               <article
                 key={pvz._id}
-                className={`${styles['list-item']}`}
+                className={`${styles['list-item']} ${pvzStore.pvz?._id === pvz._id && styles.active}`}
                 onClick={() => selectPvz(pvz._id)}
               >
                 <p className={styles.text}><b>{pvz.address}</b></p>
