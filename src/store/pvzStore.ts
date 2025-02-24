@@ -1,8 +1,8 @@
 import { makeAutoObservable } from "mobx";
-import { TPvz, TPvzEditQuery } from '../types/pvz';
+import { TPvz, TPvzEditQuery, TPvzCreateBody } from '../types/pvz';
 import pvzApi from '../api/PvzApi';
 
-type TPvzTypes = "list" | "pvz" | "edit";
+type TPvzTypes = "list" | "pvz" | "edit" | "create";
 
 class PVZStore {
   list: TPvz[] | null = null;
@@ -12,12 +12,14 @@ class PVZStore {
     list: false,
     pvz: false,
     edit: false,
+    create: false,
   };
 
   errors = {
     list: "",
     pvz: "",
     edit: "",
+    create: "",
   };
 
   constructor() {
@@ -113,6 +115,34 @@ class PVZStore {
         this.setError("Ошибка редактирования пункта выдачи заказа", 'edit');
       } finally {
         this.setLoading(false, 'edit');
+      }
+    }
+  }
+
+  async fetchCreatePvz(body: TPvzCreateBody) {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.setLoading(true, "create");
+      this.setError("", "create");
+
+      try {
+        const result = await pvzApi.fetchCreatePvz(token, body);
+
+        if (result.status === 201) {
+          if (this.list) {
+            this.setList([...this.list, result.data]);
+          }
+
+          return result.data;
+        } else {
+          this.setError("Ошибка создания пункта выдачи заказа", 'create')
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка создания пункта выдачи заказа", 'create');
+      } finally {
+        this.setLoading(false, 'create');
       }
     }
   }

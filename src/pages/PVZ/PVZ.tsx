@@ -9,7 +9,7 @@ function PVZPage() {
 
   return (
     <AdminLayout title="Пункты выдачи заказов">
-      <Filters />
+      <Filters setCurrentPvz={setCurrentPvz} />
       <div className={styles.grid}>
         <List selectPvz={setCurrentPvz} />
         {

@@ -27,3 +27,10 @@ export type TPvzEditQuery = {
   wb?: number;
 };
 export type TPvzEditResult = TPvz;
+
+export type TPvzCreateBody = {
+  address: string;
+  ozon: number;
+  wb: number;
+};
+export type TPvzCreateResult = TPvz;

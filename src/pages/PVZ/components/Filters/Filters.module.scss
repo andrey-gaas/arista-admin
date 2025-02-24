@@ -6,3 +6,43 @@
 .input {
   width: 400px;
 }
+
+.button {
+  margin-left: auto;
+}
+
+.modal-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.modal-input {
+  margin-top: 40px;
+
+  &:first-child {
+    margin-top: 20px;
+  }
+}
+
+.modal-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+.loader-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, .2);
+  filter: blur(40%);
+}
