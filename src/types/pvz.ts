@@ -1,6 +1,4 @@
-export type TPvzTypes = "arista" | "ozon" | "wb";
-
-export type TAristaPvz = {
+export type TMarketplace = {
   max: number;
   cells: {
     number: number;
@@ -8,21 +6,12 @@ export type TAristaPvz = {
   }[];
 };
 
-export type TAristaTypePvz = {
+export type TPvz = {
   _id: string;
   address: string;
-  type: "arista";
-  ozon: TAristaPvz;
-  wb: TAristaPvz;
+  ozon: TMarketplace;
+  wb: TMarketplace;
 };
-
-export type TOtherTypePvz = {
-  _id: string;
-  address: string;
-  type: Exclude<TPvzTypes, "arista">;
-};
-
-export type TPvz = TAristaTypePvz | TOtherTypePvz;
 
 // Fetch Types
 export type TPvzListQuery = {
@@ -33,7 +22,6 @@ export type TPvzListResult = TPvz[];
 export type TPvzResult = TPvz;
 
 export type TPvzEditQuery = {
-  type?: TPvzTypes;
   address?: string;
   ozon?: number;
   wb?: number;
