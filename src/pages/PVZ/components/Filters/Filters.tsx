@@ -6,7 +6,7 @@ import { Input, Button, Modal, Loader } from '../../../../components';
 import styles from './Filters.module.scss';
 
 type TFiltersProps = {
-  setCurrentPvz: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentPvz: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 function Filters(props: TFiltersProps) {

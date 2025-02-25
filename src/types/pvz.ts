@@ -34,3 +34,5 @@ export type TPvzCreateBody = {
   wb: number;
 };
 export type TPvzCreateResult = TPvz;
+
+export type TPvzRemoveResult = "OK";

@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { TPvz, TPvzEditQuery, TPvzCreateBody } from '../types/pvz';
 import pvzApi from '../api/PvzApi';
 
-type TPvzTypes = "list" | "pvz" | "edit" | "create";
+type TPvzTypes = "list" | "pvz" | "edit" | "create" | "delete";
 
 class PVZStore {
   list: TPvz[] | null = null;
@@ -13,6 +13,7 @@ class PVZStore {
     pvz: false,
     edit: false,
     create: false,
+    delete: false,
   };
 
   errors = {
@@ -20,6 +21,7 @@ class PVZStore {
     pvz: "",
     edit: "",
     create: "",
+    delete: "",
   };
 
   constructor() {
@@ -143,6 +145,34 @@ class PVZStore {
         this.setError("Ошибка создания пункта выдачи заказа", 'create');
       } finally {
         this.setLoading(false, 'create');
+      }
+    }
+  }
+
+  async fetchDeletePvz(id: string) {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.setLoading(true, "delete");
+      this.setError("", "delete");
+
+      try {
+        const result = await pvzApi.fetchRemovePvz(token, id);
+
+        if (result.status === 200) {
+          if (this.list) {
+            this.setList(this.list.filter(item => item._id !== id));
+            this.setPvz(null);
+            return true;
+          }
+        } else {
+          this.setError("Ошибка удаления пункта выдачи заказа", 'delete');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка удаления пункта выдачи заказа", 'delete');
+      } finally {
+        this.setLoading(false, 'delete');
       }
     }
   }

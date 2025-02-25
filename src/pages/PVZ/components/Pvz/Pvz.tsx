@@ -2,8 +2,9 @@ import { useEffect, memo, useState, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
 import pvzStore from '../../../../store/pvzStore';
 
-import { Button, Loader, Input } from '../../../../components';
+import { Button, Loader, Input, Modal } from '../../../../components';
 import styles from './Pvz.module.scss';
+import { TPvz } from '../../../../types/pvz';
 
 type TPvzProps = {
   id: string;
@@ -15,6 +16,7 @@ function Pvz(props: TPvzProps) {
   const [address, setAddress] = useState("");
   const [ozonCells, setOzonCells] = useState(0);
   const [wbCells, setWbCells] = useState(0);
+  const [removeModal, setRemoveModal] = useState<TPvz | null>(null);
 
   const pvz = pvzStore.pvz;
 
@@ -41,6 +43,23 @@ function Pvz(props: TPvzProps) {
       await pvzStore.fetchEditPvz(pvz?._id, body);
     }
   }, [pvz, address, ozonCells, wbCells]);
+
+  const openRemoveModal = useCallback(() => {
+    setRemoveModal(pvz);
+  }, [pvz]);
+
+  const closeRemoveModal = useCallback(() => {
+    setRemoveModal(null);
+  }, []);
+
+  const deletePvz = useCallback(async () => {
+    if (removeModal) {
+      const result = await pvzStore.fetchDeletePvz(removeModal?._id);
+      if (result) {
+        closeRemoveModal();
+      }
+    }
+  }, [removeModal, closeRemoveModal]);
 
   return (
     <section className={styles.container}>
@@ -87,7 +106,7 @@ function Pvz(props: TPvzProps) {
                 type="number"
               />
             </section>
-            <Button variant="danger" className={styles['delete-button']}>Удалить ПВЗ</Button>
+            <Button variant="danger" className={styles['delete-button']} onClick={openRemoveModal}>Удалить ПВЗ</Button>
             {
               (
                 pvz.address !== address
@@ -107,6 +126,17 @@ function Pvz(props: TPvzProps) {
           </section>
         </div>
       }
+      <Modal isOpen={Boolean(removeModal)} close={closeRemoveModal} title="Удаление ПВЗ">
+        <p className={styles['modal-text']}>Вы действительно хотите удалить этот ПВЗ?</p>
+        {
+          pvzStore.errors.delete &&
+          <p className={styles['modal-error']}>{pvzStore.errors.delete}</p>
+        }
+        <footer className={styles['modal-footer']}>
+          <Button variant="primary" onClick={closeRemoveModal} disabled={pvzStore.loading.delete}>Отмена</Button>
+          <Button variant="danger" onClick={deletePvz} disabled={pvzStore.loading.delete}>Удалить</Button>
+        </footer>
+      </Modal>
     </section>
   );
 }
