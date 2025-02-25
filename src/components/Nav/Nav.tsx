@@ -12,6 +12,7 @@ function Nav() {
   const statisticsMatch = useMatch('statistics');
   const partnersMatch = useMatch('partners');
   const usersMatch = useMatch('users');
+  const transportationMatch = useMatch('transportation');
 
   const logout = () => {
     authStore.logout();
@@ -24,6 +25,11 @@ function Nav() {
         <li>
           <Link to="/orders" className={ordersMatch ? styles.active : ""}>
             Заказы
+          </Link>
+        </li>
+        <li>
+          <Link to="/transportation" className={transportationMatch ? styles.active : ""}>
+            Перевозки
           </Link>
         </li>
         <li>
