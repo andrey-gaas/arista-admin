@@ -1,10 +1,12 @@
-export type TTransportationStatus = "active" | "delivered"
+import { TPvz } from './pvz';
+
+export type TTransportationStatus = "active" | "delivered";
 
 export type TTransportation = {
   _id: string;
   status: TTransportationStatus;
-  from: string;
-  to: string;
+  from: "Fulfillment center" | TPvz;
+  to: "Fulfillment center" | TPvz;
   products: string[];
 };
 
