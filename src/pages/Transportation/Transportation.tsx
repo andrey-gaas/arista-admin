@@ -1,9 +1,10 @@
 import { AdminLayout } from '../../layouts';
+import { Filters } from './components';
 
 function TransportationPage() {
   return (
     <AdminLayout title="Статистика">
-      <h1>Перевозки</h1>
+      <Filters />
     </AdminLayout>
   );
 }
