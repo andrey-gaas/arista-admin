@@ -42,9 +42,6 @@ class TransportationsStore {
       try {
         const result = await transportationsApi.fetchList(token, query);
 
-        console.log(query);
-
-
         if (result.status === 200) {
           this.setList(result.data);
         }

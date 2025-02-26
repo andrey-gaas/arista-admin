@@ -17,7 +17,13 @@ const types = [
   { value: 'all', label: 'Все' },
 ];
 
-function Filters() {
+type TFiltersProps = {
+  openModal: () => void;
+};
+
+function Filters(props: TFiltersProps) {
+  const { openModal } = props;
+
   const [status, setStatus] = useState(statuses[0]);
   const [type, setType] = useState(types[0]);
 
@@ -48,7 +54,7 @@ function Filters() {
           defaultValue={type}
         />
       </div>
-      <Button className={styles.button}>Создать перевозку</Button>
+      <Button className={styles.button} onClick={openModal}>Создать перевозку</Button>
     </section>
   );
 }
