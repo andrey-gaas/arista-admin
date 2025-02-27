@@ -23,8 +23,7 @@ function Products(props: TProductsProps) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const remove = (product: TProduct) => {
-    let newProducts = products.filter(item => item.id !== product.id);
-    newProducts = newProducts.map((item, i) => ({ ...item, title: `Товар №${i + 1}` }));
+    const newProducts = products.filter(item => item.code !== product.code);
     setProducts(newProducts);
   };
 
@@ -38,8 +37,7 @@ function Products(props: TProductsProps) {
   }, []);
 
   const addProducts = useCallback(() => {
-    let newProducts = products.concat(modalProducts);
-    newProducts = newProducts.map((item, i) => ({ ...item, title: `Товар №${i + 1}`, id: i }));
+    const newProducts = products.concat(modalProducts);
     setProducts(newProducts);
     setOpen(false);
     setModalProducts([]);
@@ -90,8 +88,7 @@ function Products(props: TProductsProps) {
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
       if (value.trim() !== '') {
-        let i = 0;
-        setModalProducts(prev => [...prev.map(item => ({ ...item, id: i++ })), { code: value, title: '', id: i++ }]);
+        setModalProducts(prev => [...prev.map(item => ({ ...item })), { code: value, status: 'added' }]);
         setInputValue('');
       }
     }, 500);
@@ -104,9 +101,9 @@ function Products(props: TProductsProps) {
         {products.length === 0 && <p className={styles.message}>Список пуст</p>}
         {products.length > 0 && (
           <div>
-            {products.map(product => (
-              <article key={product.id} className={styles.product}>
-                <span>{product.title}</span> <span>Код: {product.code}</span>
+            {products.map((product, i) => (
+              <article key={product.code} className={styles.product}>
+                <span>Товар № {i + 1}</span> <span>Код: {product.code}</span>
                 {
                   status === 'added' &&
                   <button className={styles['remove-button']} onClick={() => remove(product)}>

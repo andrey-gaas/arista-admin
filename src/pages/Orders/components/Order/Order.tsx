@@ -75,6 +75,9 @@ function Order(props: TOrderProps) {
           return;
         }
 
+        console.log('products', products);
+
+
         await ordersStore.fetchEditOrder(_id, {
           products,
           price: Number(totalPrice),

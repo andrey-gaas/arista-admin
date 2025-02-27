@@ -28,9 +28,8 @@ export type TOrder = {
 };
 
 export type TProduct = {
-  id: number;
   code: string;
-  title: string;
+  status: 'added' | 'in_transit' | 'delivered';
 };
 
 // Fetch Types

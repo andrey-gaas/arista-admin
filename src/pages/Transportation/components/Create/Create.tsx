@@ -89,16 +89,14 @@ function CreateModal(props: TCreateModalProps) {
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
       if (value.trim() !== '') {
-        let i = 0;
-        setModalProducts(prev => [...prev.map(item => ({ ...item, id: i++ })), { code: value, title: '', id: i++ }]);
+        setModalProducts(prev => [...prev, { code: value, status: 'in_transit' }]);
         setInputValue('');
       }
     }, 500);
   };
 
   const addProducts = useCallback(() => {
-    let newProducts = products.concat(modalProducts);
-    newProducts = newProducts.map((item, i) => ({ ...item, title: `Товар №${i + 1}`, id: i }));
+    const newProducts = products.concat(modalProducts);
     setProducts(newProducts);
     setOpenModal(false);
     setModalProducts([]);
@@ -166,9 +164,9 @@ function CreateModal(props: TCreateModalProps) {
                 <>
                   <section className={styles.products}>
                     {
-                      products.map((item) => (
+                      products.map((item, i) => (
                         <article key={item.code} className={styles.product}>
-                          Товар {item.id + 1}, код - {item.code}
+                          Товар №{i + 1}, код - {item.code}
                           <button onClick={() => setProducts(products => products.filter(prod => prod.code !== item.code))}><Trash2 size={16} /></button>
                         </article>
                       ))
