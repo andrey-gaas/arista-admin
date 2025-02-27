@@ -16,3 +16,10 @@ export type TTransportationsListQuery = {
   type?: 'return' | 'delivery';
 };
 export type TTransportationsListResult = TTransportation[];
+
+export type TTransportationCreateBody = {
+  from: string;
+  to: string;
+  products: string[];
+};
+export type TTransportationCreateResult = "OK";

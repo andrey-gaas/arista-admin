@@ -1,6 +1,7 @@
 import { memo, useState, useEffect, useCallback, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import pvzStore from "../../../../store/pvzStore";
+import transporationsStore from "../../../../store/transportationsStore";
 import { TProduct } from '../../../../types/orders';
 
 import { Trash2 } from "lucide-react";
@@ -12,10 +13,11 @@ type TOption = { value: string; label: string };
 type TCreateModalProps = {
   isOpen: boolean;
   close: () => void;
+  updateList: () => void;
 };
 
 function CreateModal(props: TCreateModalProps) {
-  const { isOpen, close } = props;
+  const { isOpen, close, updateList } = props;
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -103,7 +105,7 @@ function CreateModal(props: TCreateModalProps) {
     setError("");
   }, [products, modalProducts, setProducts]);
 
-  const create = useCallback(() => {
+  const create = useCallback(async () => {
     if (from === to) {
       setError('Пункт отправки и назначения не могут совпадать');
       return;
@@ -113,7 +115,20 @@ function CreateModal(props: TCreateModalProps) {
       setError('Необходимо добавить товары');
       return;
     }
-  }, [from, to, products]);
+
+    const body = {
+      from: from.value,
+      to: to.value,
+      products: products.map(item => item.code),
+    };
+
+    const result = await transporationsStore.fetchCreate(body);
+
+    if (result) {
+      await updateList();
+      close();
+    }
+  }, [from, to, products, close, updateList]);
 
   return (
     <Modal isOpen={isOpen} close={close} title="Создать перевозку">

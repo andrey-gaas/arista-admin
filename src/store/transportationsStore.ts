@@ -1,18 +1,20 @@
 import { makeAutoObservable } from "mobx";
 import transportationsApi from "../api/TransportationApi";
-import { TTransportation, TTransportationsListQuery } from '../types/transportations';
+import { TTransportation, TTransportationCreateBody, TTransportationsListQuery } from '../types/transportations';
 
-type TTransportationsTypes = "list";
+type TTransportationsTypes = "list" | "create";
 
 class TransportationsStore {
   list: TTransportation[] | null = null;
 
   loading = {
     list: false,
+    create: false,
   };
 
   errors = {
     list: "",
+    create: "",
   };
 
   constructor() {
@@ -50,6 +52,29 @@ class TransportationsStore {
         this.setError("Ошибка загрузки списка заказов", 'list');
       } finally {
         this.setLoading(false, 'list');
+      }
+    }
+  }
+
+  async fetchCreate(body: TTransportationCreateBody) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.setLoading(true, 'create');
+      this.setError("", 'create');
+
+      try {
+        const result = await transportationsApi.fetchCreate(token, body);
+
+        if (result.status === 201) {
+          return true;
+        } else {
+          this.setError("Ошибка создания перевозки", 'create');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка создания перевозки", 'create');
+      } finally {
+        this.setLoading(false, 'create');
       }
     }
   }

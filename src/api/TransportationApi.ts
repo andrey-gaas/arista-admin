@@ -1,6 +1,7 @@
 import axios, { TAxiosResult } from './axiosInstance';
 import {
   TTransportationsListQuery, TTransportationsListResult,
+  TTransportationCreateBody, TTransportationCreateResult,
 } from '../types/transportations';
 
 class TransportationsApi {
@@ -12,6 +13,19 @@ class TransportationsApi {
           Authorization: `Bearer ${token}`,
         },
       })
+      .then((response) => response)
+      .catch(({ response }) => ({ ...response }));
+  }
+
+  async fetchCreate(token: string, body: TTransportationCreateBody): Promise<TAxiosResult<TTransportationCreateResult>> {
+    return await axios
+      .post('/transportations', body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch(({ response }) => ({ ...response }));
   }
 }
 
