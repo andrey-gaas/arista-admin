@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef, memo } from 'react';
 import { observer } from 'mobx-react-lite';
 import ordersStore from '../../../../store/ordersStore';
 
+import { PackagePlus, Truck, PackageCheck } from 'lucide-react';
 import { Button, Icon, Modal, Loader } from '../../../../components';
 import { TOrderStatus, TProduct } from '../../../../types/orders';
 import styles from './Products.module.scss';
@@ -103,7 +104,22 @@ function Products(props: TProductsProps) {
           <div>
             {products.map((product, i) => (
               <article key={product.code} className={styles.product}>
-                <span>Товар № {i + 1}</span> <span>Код: {product.code}</span>
+                <span>Товар № {i + 1}</span>
+                <span>Код: {product.code}</span>
+                <div>
+                  {
+                    product.status === 'added' &&
+                    <PackagePlus size={22} color="#aaa" />
+                  }
+                  {
+                    product.status === 'in_transit' &&
+                    <Truck size={22} color="#eb890e" />
+                  }
+                  {
+                    product.status === 'delivered' &&
+                    <PackageCheck size={22} color="#42b883" />
+                  }
+                </div>
                 {
                   status === 'added' &&
                   <button className={styles['remove-button']} onClick={() => remove(product)}>
