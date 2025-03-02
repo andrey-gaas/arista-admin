@@ -211,10 +211,7 @@ class PVZStore {
       try {
         const result = await pvzApi.fetchRemoveCell(token, _id, body);
 
-        if (result.status === 200) {
-          alert("ZALUPA");
-        }
-        else {
+        if (result.status !== 200) {
           this.setError("Ошибка удаления ячейки", 'edit');
         }
       } catch (error) {
