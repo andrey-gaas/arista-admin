@@ -101,6 +101,19 @@ function Order(props: TOrderProps) {
 
         await ordersStore.fetchEditOrder(_id, { status });
       }
+
+      if (status === 'issued') {
+        if (order.status !== 'delivered') {
+          ordersStore.setError("Заказ не может быть выдан, пока он не будет доставлен", "status");
+          return;
+        }
+
+        await ordersStore.fetchEditOrder(_id, { status });
+      }
+
+      if (status === 'rejected') {
+        await ordersStore.fetchEditOrder(_id, { status });
+      }
     }
 
   }, [order, products, totalPrice, profit]);
