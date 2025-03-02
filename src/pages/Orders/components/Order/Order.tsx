@@ -86,6 +86,21 @@ function Order(props: TOrderProps) {
         });
       }
 
+      if (status === 'delivered') {
+        if (order.status === 'added') {
+          ordersStore.setError("Заказ не может быть доставлен, пока он не будет отправлен", "status");
+          return;
+        }
+
+        const findedProducts = order.products.find(product => product.status !== 'delivered');
+
+        if (findedProducts) {
+          ordersStore.setError("Для перехода в статус 'Доставлено' все товары должны быть доставлены!", "status");
+          return;
+        }
+
+        await ordersStore.fetchEditOrder(_id, { status });
+      }
     }
 
   }, [order, products, totalPrice, profit]);
