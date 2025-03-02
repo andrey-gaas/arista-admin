@@ -46,3 +46,9 @@ export type TPvzSetCellBody = {
 export type TPvzSetCellResult = {
   cellNumber: number;
 };
+
+export type TPvzRemoveCellQuery = {
+  order: string;
+  type: TMarket;
+};
+export type TPvzRemoveCellResult = "OK";

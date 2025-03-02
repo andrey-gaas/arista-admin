@@ -53,6 +53,7 @@ function Order(props: TOrderProps) {
       }
 
       if (status === 'added') {
+        await pvzStore.fetchRemoveCell(order.address._id, { type: order.market, order: order._id });
         await ordersStore.fetchEditOrder(_id, { status });
       }
 
@@ -76,13 +77,13 @@ function Order(props: TOrderProps) {
           return;
         }
 
+        await pvzStore.fetchSetCell(order.address._id, { order: order._id, type: order.market })
         await ordersStore.fetchEditOrder(_id, {
           products,
           price: Number(totalPrice),
           profit,
           status,
         });
-        await pvzStore.fetchSetCell(order.address._id, { order: order._id, type: order.market })
       }
 
     }

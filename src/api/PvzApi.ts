@@ -6,6 +6,7 @@ import {
   TPvzCreateBody, TPvzCreateResult,
   TPvzRemoveResult,
   TPvzSetCellBody, TPvzSetCellResult,
+  TPvzRemoveCellQuery, TPvzRemoveCellResult,
 } from '../types/pvz';
 
 class PvzApi {
@@ -68,6 +69,17 @@ class PvzApi {
   async fetchSetCell(token: string, _id: string, body: TPvzSetCellBody): Promise<TAxiosResult<TPvzSetCellResult>> {
     return await axios
       .put(`/pvz/add-product/${_id}`, body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch(({ response }) => ({ ...response }));
+  }
+
+  async fetchRemoveCell(token: string, _id: string, body: TPvzRemoveCellQuery): Promise<TAxiosResult<TPvzRemoveCellResult>> {
+    return await axios
+      .put(`/pvz/remove-product/${_id}`, body, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

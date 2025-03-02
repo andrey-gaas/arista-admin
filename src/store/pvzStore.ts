@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { TPvz, TPvzEditQuery, TPvzCreateBody, TPvzSetCellBody } from '../types/pvz';
+import { TPvz, TPvzEditQuery, TPvzCreateBody, TPvzSetCellBody, TPvzRemoveCellQuery } from '../types/pvz';
 import pvzApi from '../api/PvzApi';
 
 type TPvzTypes = "list" | "pvz" | "edit" | "create" | "delete";
@@ -196,6 +196,30 @@ class PVZStore {
       } catch (error) {
         console.log(error);
         this.setError("Ошибка установки ячейки", 'edit');
+      } finally {
+        this.setLoading(false, 'edit');
+      }
+    }
+  }
+
+  async fetchRemoveCell(_id: string, body: TPvzRemoveCellQuery) {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.setLoading(true, "edit");
+      this.setError("", "edit");
+      try {
+        const result = await pvzApi.fetchRemoveCell(token, _id, body);
+
+        if (result.status === 200) {
+          alert("ZALUPA");
+        }
+        else {
+          this.setError("Ошибка удаления ячейки", 'edit');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка удаления ячейки", 'edit');
       } finally {
         this.setLoading(false, 'edit');
       }
