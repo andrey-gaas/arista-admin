@@ -108,10 +108,12 @@ function Order(props: TOrderProps) {
           return;
         }
 
+        await pvzStore.fetchRemoveCell(order.address._id, { type: order.market, order: order._id });
         await ordersStore.fetchEditOrder(_id, { status });
       }
 
       if (status === 'rejected') {
+        await pvzStore.fetchRemoveCell(order.address._id, { type: order.market, order: order._id });
         await ordersStore.fetchEditOrder(_id, { status });
       }
     }
