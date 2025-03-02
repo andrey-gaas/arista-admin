@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import transportationsApi from "../api/TransportationApi";
 import { TTransportation, TTransportationCreateBody, TTransportationsListQuery } from '../types/transportations';
 
-type TTransportationsTypes = "list" | "create";
+type TTransportationsTypes = "list" | "create" | "finish";
 
 class TransportationsStore {
   list: TTransportation[] | null = null;
@@ -10,11 +10,13 @@ class TransportationsStore {
   loading = {
     list: false,
     create: false,
+    finish: false,
   };
 
   errors = {
     list: "",
     create: "",
+    finish: "",
   };
 
   constructor() {
@@ -75,6 +77,29 @@ class TransportationsStore {
         this.setError("Ошибка создания перевозки", 'create');
       } finally {
         this.setLoading(false, 'create');
+      }
+    }
+  }
+
+  async fetchFinish(id: string, products: string[]) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.setLoading(true, 'finish');
+      this.setError("", 'finish');
+
+      try {
+        const result = await transportationsApi.fetchFinish(token, id, products);
+
+        if (result.status === 200) {
+          return true;
+        } else {
+          this.setError("Ошибка завершения перевозки", 'finish');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка завершения перевозки", 'finish');
+      } finally {
+        this.setLoading(false, 'finish');
       }
     }
   }

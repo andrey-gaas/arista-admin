@@ -2,6 +2,7 @@ import axios, { TAxiosResult } from './axiosInstance';
 import {
   TTransportationsListQuery, TTransportationsListResult,
   TTransportationCreateBody, TTransportationCreateResult,
+  TTransportationFinishBody, TTransportationFinishResult,
 } from '../types/transportations';
 
 class TransportationsApi {
@@ -20,6 +21,17 @@ class TransportationsApi {
   async fetchCreate(token: string, body: TTransportationCreateBody): Promise<TAxiosResult<TTransportationCreateResult>> {
     return await axios
       .post('/transportations', body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => response)
+      .catch(({ response }) => ({ ...response }));
+  }
+
+  async fetchFinish(token: string, id: string, body: TTransportationFinishBody): Promise<TAxiosResult<TTransportationFinishResult>> {
+    return await axios
+      .put(`/transportations/finish/${id}`, body, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

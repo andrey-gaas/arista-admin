@@ -1,4 +1,5 @@
 import { TPvz } from './pvz';
+import { TUser } from './auth';
 
 export type TTransportationStatus = "active" | "delivered";
 
@@ -8,6 +9,10 @@ export type TTransportation = {
   from: "Fulfillment center" | TPvz;
   to: "Fulfillment center" | TPvz;
   products: string[];
+  createdAt: Date;
+  creator: TUser;
+  completed?: TUser;
+  finishedAt?: Date;
 };
 
 // Fetch Types
@@ -23,3 +28,6 @@ export type TTransportationCreateBody = {
   products: string[];
 };
 export type TTransportationCreateResult = "OK";
+
+export type TTransportationFinishBody = string[];
+export type TTransportationFinishResult = "OK";

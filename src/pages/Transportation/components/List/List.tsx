@@ -4,8 +4,15 @@ import { Car, CircleCheckBig } from "lucide-react";
 
 import { Loader } from "../../../../components";
 import styles from './List.module.scss';
+import { TTransportation } from "../../../../types/transportations";
 
-function List() {
+type TListProps = {
+  open: (value: TTransportation) => void;
+};
+
+function List(props: TListProps) {
+  const { open } = props;
+
   return (
     <section className={styles.container}>
       <h3 className={styles.title}>Список перевозок</h3>
@@ -26,7 +33,7 @@ function List() {
       {
         transporationsStore.list &&
         transporationsStore.list.map(item => (
-          <article key={item._id} className={styles.transportation}>
+          <article key={item._id} className={styles.transportation} onClick={() => open(item)}>
             {item.status === 'active' ? <Car color="#eb890e" size={26} /> : <CircleCheckBig color="#42b883" size={26} />}
             <p className={styles['transportation-text']}>
               {item.from !== 'Fulfillment center' && item.from.address}

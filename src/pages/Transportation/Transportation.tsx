@@ -3,7 +3,8 @@ import { observer } from 'mobx-react-lite';
 import transporationsStore from '../../store/transportationsStore';
 
 import { AdminLayout } from '../../layouts';
-import { Filters, List, Create } from './components';
+import { Filters, List, Create, Card } from './components';
+import { TTransportation, TTransportationsListQuery } from '../../types/transportations';
 
 type TOption = { value: string, label: string };
 
@@ -21,19 +22,28 @@ function TransportationPage() {
   ], []);
 
   const [isOpenCreateModal, setOpenCreateModal] = useState(false);
+  const [infoModal, setInfoModal] = useState<TTransportation | null>(null);
 
   const [status, setStatus] = useState(statuses[0]);
   const [type, setType] = useState(types[0]);
 
-  const toggleModal = useCallback(() => {
+  const toggleCreateModal = useCallback(() => {
     setOpenCreateModal(value => !value);
+  }, []);
+
+  const closeInfoModal = useCallback(() => {
+    setInfoModal(null);
+  }, []);
+
+  const openInfoModal = useCallback((transportation: TTransportation) => {
+    setInfoModal(transportation);
   }, []);
 
   const fetchList = useCallback(async () => {
     const query = {
       ...(status.value !== 'all' && { status: status.value }),
       ...(type.value !== 'all' && { type: type.value }),
-    };
+    } as TTransportationsListQuery;
 
     await transporationsStore.fetchList(query);
   }, [status, type]);
@@ -45,7 +55,7 @@ function TransportationPage() {
   return (
     <AdminLayout title="Статистика">
       <Filters
-        openModal={toggleModal}
+        openModal={toggleCreateModal}
         status={status}
         setStatus={setStatus}
         statuses={statuses}
@@ -53,12 +63,13 @@ function TransportationPage() {
         setType={setType}
         types={types}
       />
-      <List />
+      <List open={openInfoModal} />
       <Create
         isOpen={isOpenCreateModal}
-        close={toggleModal}
+        close={toggleCreateModal}
         updateList={fetchList}
       />
+      <Card transportation={infoModal} close={closeInfoModal} />
     </AdminLayout>
   );
 }

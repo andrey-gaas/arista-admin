@@ -108,7 +108,7 @@ function Products(props: TProductsProps) {
                 <span>Код: {product.code}</span>
                 <div>
                   {
-                    product.status === 'added' &&
+                    (product.status === 'added' && status !== 'added') &&
                     <PackagePlus size={22} color="#aaa" />
                   }
                   {
