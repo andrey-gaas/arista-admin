@@ -18,7 +18,7 @@ function Info(props: TInfoProps) {
 
   const getDate = (timestamp: number) => {
     const date = new Date(timestamp);
-    const day = date.getDate() < 10 ? `0${date.getDate()}}` : date.getDate();
+    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
     const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
     const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
     const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
@@ -34,6 +34,7 @@ function Info(props: TInfoProps) {
           <p className={styles['order-info-data']}>Адрес ПВЗ Ариста: <b>{order.address.address}</b></p>
           <p className={styles['order-info-data']}>Дата создания: <b>{getDate(order.date)}</b></p>
           <p className={styles['order-info-data']}>Торговая площадка: <b>{order.market === 'ozon' ? "OZON" : "Wildberries"}</b></p>
+          {order.cell !== undefined && <p className={styles['order-info-data']}>Номер ячейки: <b>{order.cell}</b></p>}
           <h6 className={styles['order-info-title']}>Информация о клиенте:</h6>
           <p className={styles['order-info-data']}>Клиент: <b>{order.user.phone}</b></p>
           <p className={styles['order-info-data']}>Код клиента: <b>{order.user.code}</b></p>

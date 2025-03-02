@@ -208,7 +208,7 @@ class OrdersStore {
 
     if (token) {
       try {
-        const result = await ordersApi.fetchOrder(token, { _id });
+        const result = await ordersApi.fetchOrder(token, _id, { cell: 1 });
 
         if (result.status === 200) {
           this.setOrder(result.data);

@@ -25,6 +25,7 @@ export type TOrder = {
   products: TProduct[];
   price: number;
   profit: number;
+  cell: number;
 };
 
 export type TProduct = {
@@ -62,7 +63,7 @@ export type TOrderListByPhoneQuery = {
 export type TOrderListByPhoneResult = TOrder[];
 
 export type TOrderQuery = {
-  _id: string;
+  cell: number;
 };
 export type TOrderResult = TOrder;
 

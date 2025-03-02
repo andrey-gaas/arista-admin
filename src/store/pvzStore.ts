@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { TPvz, TPvzEditQuery, TPvzCreateBody } from '../types/pvz';
+import { TPvz, TPvzEditQuery, TPvzCreateBody, TPvzSetCellBody } from '../types/pvz';
 import pvzApi from '../api/PvzApi';
 
 type TPvzTypes = "list" | "pvz" | "edit" | "create" | "delete";
@@ -173,6 +173,31 @@ class PVZStore {
         this.setError("Ошибка удаления пункта выдачи заказа", 'delete');
       } finally {
         this.setLoading(false, 'delete');
+      }
+    }
+  }
+
+  async fetchSetCell(_id: string, body: TPvzSetCellBody) {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.setLoading(true, "edit");
+      this.setError("", "edit");
+      try {
+        const result = await pvzApi.fetchSetCell(token, _id, body);
+
+        if (result.status === 200) {
+          if (this.list) {
+            this.setList(this.list.map(item => item._id === _id ? { ...item, cell: result.data.cellNumber } : item));
+          }
+        } else {
+          this.setError("Ошибка установки ячейки", 'edit');
+        }
+      } catch (error) {
+        console.log(error);
+        this.setError("Ошибка установки ячейки", 'edit');
+      } finally {
+        this.setLoading(false, 'edit');
       }
     }
   }

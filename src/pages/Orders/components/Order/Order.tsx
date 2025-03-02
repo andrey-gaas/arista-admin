@@ -10,6 +10,7 @@ import Message from '../Message/Message';
 import { Loader } from '../../../../components';
 import styles from './Order.module.scss';
 import { TOrderStatus, TProduct } from '../../../../types/orders';
+import pvzStore from '../../../../store/pvzStore';
 
 type TOrderProps = {
   id: string;
@@ -75,15 +76,13 @@ function Order(props: TOrderProps) {
           return;
         }
 
-        console.log('products', products);
-
-
         await ordersStore.fetchEditOrder(_id, {
           products,
           price: Number(totalPrice),
           profit,
           status,
         });
+        await pvzStore.fetchSetCell(order.address._id, { order: order._id, type: order.market })
       }
 
     }

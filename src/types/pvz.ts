@@ -1,3 +1,5 @@
+import { TMarket } from './orders';
+
 export type TMarketplace = {
   max: number;
   cells: {
@@ -36,3 +38,11 @@ export type TPvzCreateBody = {
 export type TPvzCreateResult = TPvz;
 
 export type TPvzRemoveResult = "OK";
+
+export type TPvzSetCellBody = {
+  order: string;
+  type: TMarket;
+};
+export type TPvzSetCellResult = {
+  cellNumber: number;
+};

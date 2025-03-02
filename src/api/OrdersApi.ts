@@ -56,9 +56,10 @@ class OrdersApi {
       .catch(({ response }) => ({ ...response }));
   }
 
-  async fetchOrder(token: string, query: TOrderQuery): Promise<TAxiosResult<TOrderResult>> {
+  async fetchOrder(token: string, _id: string, query: TOrderQuery): Promise<TAxiosResult<TOrderResult>> {
     return await axios
-      .get(`/order/item/${query._id}`, {
+      .get(`/order/item/${_id}`, {
+        params: query,
         headers: {
           Authorization: `Bearer ${token}`,
         },
