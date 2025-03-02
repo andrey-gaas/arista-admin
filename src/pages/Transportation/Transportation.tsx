@@ -69,7 +69,7 @@ function TransportationPage() {
         close={toggleCreateModal}
         updateList={fetchList}
       />
-      <Card transportation={infoModal} close={closeInfoModal} />
+      <Card transportation={infoModal} close={closeInfoModal} updateList={fetchList} />
     </AdminLayout>
   );
 }

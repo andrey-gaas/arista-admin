@@ -10,10 +10,11 @@ import { TTransportation } from '../../../../types/transportations';
 type TCardProps = {
   transportation: TTransportation | null;
   close: (value?: TTransportation) => void;
+  updateList: () => void;
 };
 
 function Card(props: TCardProps) {
-  const { transportation, close } = props;
+  const { transportation, close, updateList } = props;
 
   const [error, setError] = useState("");
 
@@ -69,11 +70,12 @@ function Card(props: TCardProps) {
 
       if (result) {
         close();
+        updateList();
       } else {
         setError(transporationsStore.errors.finish);
       }
     }
-  }, [transportation, products, close]);
+  }, [transportation, products, close, updateList]);
 
   useEffect(() => {
     if (isOpenModal && inputRef.current) {
