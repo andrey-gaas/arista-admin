@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import authApi from "../api/AuthApi";
-import { TUser } from "../types/auth";
+import { TAuthUser } from "../types/auth";
 
 type TKeys = "login" | "profile";
 
@@ -9,7 +9,7 @@ class AuthStore {
     makeAutoObservable(this);
   }
 
-  user: TUser | null = null;
+  user: TAuthUser | null = null;
 
   loading = {
     login: false,
@@ -29,7 +29,7 @@ class AuthStore {
     this.errors[key] = value;
   }
 
-  setUser(user: TUser | null) {
+  setUser(user: TAuthUser | null) {
     this.user = user;
   }
 
@@ -41,7 +41,7 @@ class AuthStore {
       const result = await authApi.login(email, password);
 
       if (result.status === 200 && result.data) {
-        const user: TUser = {
+        const user: TAuthUser = {
           name: result.data.name,
           email: result.data.email,
           role: result.data.role,

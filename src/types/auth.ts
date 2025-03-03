@@ -1,11 +1,6 @@
-export type TUserRole = "admin";
+import { TUser } from "./users";
 
-export type TUser = {
-  _id: string;
-  name: string;
-  email: string;
-  role: TUserRole;
-};
+export type TAuthUser = Omit<TUser, "_id" | "password" | "pvz" | "date">;
 
 // FetchTypes
 export type TLoginResult = TUser & {
