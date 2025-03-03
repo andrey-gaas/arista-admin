@@ -3,8 +3,9 @@ import { observer } from 'mobx-react-lite';
 import usersStore from '../../store/usersStore';
 
 import { AdminLayout } from '../../layouts';
-import { Filters } from './components';
+import { Filters, List } from './components';
 import { TUsersListQuery } from '../../types/users';
+import styles from './Users.module.scss';
 
 type TOption = {
   value: string;
@@ -48,6 +49,13 @@ function UsersPage() {
         name={name}
         setName={setName}
       />
+      <div className={styles.grid}>
+        <List
+          page={page}
+          setPage={setPage}
+          listItemsCount={listItemsCount}
+        />
+      </div>
     </AdminLayout>
   );
 }
