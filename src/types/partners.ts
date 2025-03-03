@@ -17,3 +17,5 @@ export type TPartnersListResult = {
   list: TPartner[];
   count: number;
 };
+
+export type TPartnerResult = TPartner;

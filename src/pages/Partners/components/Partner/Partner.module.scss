@@ -1,0 +1,44 @@
+.container {
+  min-width: 800px;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+  overflow: hidden;
+}
+
+.loader-container {
+  margin: 10px;
+}
+
+.message {
+  margin: 10px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.partner {}
+
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.partner-info {
+  position: relative;
+  padding: 10px;
+}
+
+.info {
+  margin: 0;
+  margin-top: 10px;
+  font-size: 16px;
+  color: var(--black);
+
+  &:first-child {
+    margin-top: 0;
+  }
+}

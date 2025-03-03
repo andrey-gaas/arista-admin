@@ -43,7 +43,7 @@ function List(props: TListProps) {
             partnersStore.list.map(partner => (
               <article
                 key={partner._id}
-                className={styles.partner}
+                className={`${styles.partner} ${partnersStore.partner?._id === partner._id && styles.active}`}
                 onClick={() => selectPartner(partner._id)}
               >
                 Заявка №<b>{partner.id}</b>
