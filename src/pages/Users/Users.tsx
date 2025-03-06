@@ -26,7 +26,7 @@ function UsersPage() {
   const [name, setName] = useState("");
   const [page, setPage] = useState(0);
 
-  const fetchList = useCallback(() => {
+  const fetchList = useCallback(async () => {
     const query = {
       ...(role.value === 'all' ? {} : { role: role.value }),
       ...(name && { name }),
@@ -34,7 +34,7 @@ function UsersPage() {
       limit: listItemsCount,
     } as TUsersListQuery;
 
-    usersStore.fetchList(query);
+    await usersStore.fetchList(query);
   }, [role, listItemsCount, page, name]);
 
   useEffect(() => {
