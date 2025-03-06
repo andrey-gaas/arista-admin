@@ -47,6 +47,13 @@
   margin-top: 26px;
 }
 
-.save-button {
+.save-button-container {
+  display: flex;
+  align-items: center;
   margin-top: 20px;
+}
+
+.save-loader-container {
+  margin-left: 10px;
+  transform: scale(.5);
 }

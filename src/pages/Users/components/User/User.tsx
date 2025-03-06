@@ -171,13 +171,22 @@ function User(props: TUserProps) {
                 || user.email !== state.email
                 || user.password !== state.password
               ) &&
-              <Button
-                variant="success"
-                className={styles['save-button']}
-                onClick={handleSave}
-              >
-                Сохранить изменения
-              </Button>
+              <div className={styles['save-button-container']}>
+                <Button
+                  variant="success"
+                  className={styles['save-button']}
+                  onClick={handleSave}
+                  disabled={usersStore.loading.edit}
+                >
+                  Сохранить изменения
+                </Button>
+                {
+                  usersStore.loading.edit &&
+                  <div className={styles['save-loader-container']}>
+                    <Loader />
+                  </div>
+                }
+              </div>
             }
           </section>
         </div>
