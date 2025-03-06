@@ -21,3 +21,5 @@ export type TUsersListResult = {
   list: TUser[];
   count: number;
 };
+
+export type TUserResult = TUser;

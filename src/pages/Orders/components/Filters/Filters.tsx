@@ -62,7 +62,7 @@ function Filters() {
         onSelect={setSearchType}
         placeholder='Выберите что нибудь'
         title="Заказы по:"
-        defaultValue={searchType}
+        value={searchType}
       />
       {
         searchType.value !== 'status' &&

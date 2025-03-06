@@ -21,10 +21,11 @@ type TListProps = {
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   listItemsCount: number;
+  selectUser: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 function List(props: TListProps) {
-  const { page, setPage, listItemsCount } = props;
+  const { page, setPage, listItemsCount, selectUser } = props;
 
   return (
     <div>
@@ -54,7 +55,8 @@ function List(props: TListProps) {
             usersStore.list.map(user => (
               <article
                 key={user._id}
-                className={styles.user}
+                className={`${styles.user} ${usersStore.user?._id === user._id && styles.active}`}
+                onClick={() => selectUser(user._id)}
               >
                 <span className={styles['user-text']}>{user.name}</span>
                 <span className={styles['user-text']}><b>{getRoleName(user.role)}</b></span>

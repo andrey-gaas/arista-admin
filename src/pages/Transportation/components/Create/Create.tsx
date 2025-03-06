@@ -142,14 +142,14 @@ function CreateModal(props: TCreateModalProps) {
             <Dropdown
               options={options}
               onSelect={setFrom}
-              defaultValue={from}
+              value={from}
               className={styles.dropdown}
             />
             <h6 className={styles.title}>Пункт назначения</h6>
             <Dropdown
               options={options}
               onSelect={setTo}
-              defaultValue={to}
+              value={to}
               className={styles.dropdown}
             />
             <section className={styles.list}>

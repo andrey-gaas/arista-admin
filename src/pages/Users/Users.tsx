@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import usersStore from '../../store/usersStore';
 
 import { AdminLayout } from '../../layouts';
-import { Filters, List } from './components';
+import { Filters, List, User } from './components';
 import { TUsersListQuery } from '../../types/users';
 import styles from './Users.module.scss';
 
@@ -21,6 +21,7 @@ function UsersPage() {
   ], []);
   const listItemsCount = useMemo(() => 6, []);
 
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [role, setRole] = useState(roles[0]);
   const [name, setName] = useState("");
   const [page, setPage] = useState(0);
@@ -54,7 +55,12 @@ function UsersPage() {
           page={page}
           setPage={setPage}
           listItemsCount={listItemsCount}
+          selectUser={setCurrentUser}
         />
+        {
+          currentUser &&
+          <User id={currentUser} />
+        }
       </div>
     </AdminLayout>
   );

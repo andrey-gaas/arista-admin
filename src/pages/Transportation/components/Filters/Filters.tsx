@@ -33,7 +33,7 @@ function Filters(props: TFiltersProps) {
           options={statuses}
           onSelect={setStatus}
           title="Статус"
-          defaultValue={status}
+          value={status}
         />
       </div>
       <div className={styles.dropdown}>
@@ -41,7 +41,7 @@ function Filters(props: TFiltersProps) {
           options={types}
           onSelect={setType}
           title="Тип перевозки"
-          defaultValue={type}
+          value={type}
         />
       </div>
       <Button className={styles.button} onClick={openModal}>Создать перевозку</Button>

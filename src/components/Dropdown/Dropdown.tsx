@@ -13,16 +13,16 @@ type TDropdownProps = {
   onSelect: (value: TOption) => void;
   placeholder?: string;
   title?: string;
-  defaultValue?: TOption;
+  value: TOption;
   className?: string;
 };
 
 function Dropdown(props: TDropdownProps) {
-  const { options, onSelect, placeholder, title, defaultValue, className } = props;
+  const { options, onSelect, placeholder, title, value, className } = props;
 
   const [isOpen, setOpen] = useState(false);
-  const [selected, setSelected] = useState<TOption | null>(defaultValue || null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     if (!isOpen) return;
@@ -38,7 +38,6 @@ function Dropdown(props: TDropdownProps) {
   }, [isOpen]);
 
   const handleSelect = (option: TOption) => {
-    setSelected(option);
     onSelect(option);
     setOpen(false);
   };
@@ -46,7 +45,7 @@ function Dropdown(props: TDropdownProps) {
   return (
     <div ref={dropdownRef} className={`${styles.dropdown} ${isOpen && styles.open} ${className}`} onClick={() => setOpen(value => !value)}>
       {title && <span className={styles.title}>{title}</span>}
-      <span className={styles.label}>{selected?.label || placeholder}</span>
+      <span className={styles.label}>{value.label || placeholder}</span>
       <Icon type="arrow" className={isOpen ? styles.open : styles.close} />
       {
         isOpen &&

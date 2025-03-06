@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, memo } from "react";
 
 import { Dropdown, Button, Input } from "../../../../components";
 import styles from './Filters.module.scss';
@@ -29,7 +29,7 @@ function Filters(props: TFiltersProps) {
       <Dropdown
         options={roles}
         title="Роли:"
-        defaultValue={role}
+        value={role}
         onSelect={setRole}
       />
       <Input
@@ -44,4 +44,4 @@ function Filters(props: TFiltersProps) {
   );
 }
 
-export default Filters;
+export default memo(Filters);
