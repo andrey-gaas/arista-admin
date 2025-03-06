@@ -5,6 +5,7 @@ import usersStore from '../../../../store/usersStore';
 
 import { Loader, Input, Dropdown, Button } from '../../../../components';
 import styles from './User.module.scss';
+import { TRole } from '../../../../types/users';
 
 type TOption = {
   value: string;
@@ -13,10 +14,11 @@ type TOption = {
 
 type TUserProps = {
   id: string;
+  updateList: () => void;
 };
 
 function User(props: TUserProps) {
-  const { id } = props;
+  const { id, updateList } = props;
   const roles = useMemo(() => [
     { value: 'manager', label: 'Менеджер' },
     { value: 'partner', label: 'Партнер' },
@@ -35,7 +37,6 @@ function User(props: TUserProps) {
   });
 
   const [role, setRole] = useState<TOption | null>(null);
-  const [loading, setLoading] = useState(false);
 
   const user = usersStore.user;
 
@@ -69,31 +70,43 @@ function User(props: TUserProps) {
     }));
   }, []);
 
-  const handleSave = useCallback(() => {
-    const errors = {
-      name: '',
-      email: '',
-      password: '',
-    };
-    if (!state.name) {
-      errors.name = "Введите имя пользователя";
-    }
-    if (!state.email) {
-      errors.email = "Введите Email пользователя";
-    } else if (!valudator.isEmail(state.email)) {
-      errors.email = "Введите корректный Email";
-    }
-    if (!state.password) {
-      errors.password = "Введите пароль для пользователя";
-    } else if (state.password.length < 6 || state.password.length > 16) {
-      errors.password = "Пароль должен содержать от 6 до 16 символов";
-    }
+  const handleSave = useCallback(async () => {
+    if (user) {
+      const errors = {
+        name: '',
+        email: '',
+        password: '',
+      };
+      if (!state.name) {
+        errors.name = "Введите имя пользователя";
+      }
+      if (!state.email) {
+        errors.email = "Введите Email пользователя";
+      } else if (!valudator.isEmail(state.email)) {
+        errors.email = "Введите корректный Email";
+      }
+      if (!state.password) {
+        errors.password = "Введите пароль для пользователя";
+      } else if (state.password.length < 6 || state.password.length > 16) {
+        errors.password = "Пароль должен содержать от 6 до 16 символов";
+      }
 
-    if (Object.values(errors).some(error => error)) {
-      setErrors(errors);
-      return;
+      if (Object.values(errors).some(error => error)) {
+        setErrors(errors);
+        return;
+      }
+
+      const query = {
+        ...(state.name !== user.name && { name: state.name }),
+        ...(state.email !== user.email && { email: state.email }),
+        ...(state.password !== user.password && { password: state.password }),
+        ...((role && role.value !== user.role) && { role: role.value as TRole }),
+      };
+
+      await usersStore.fetchEditUser(user._id, query);
+      await updateList();
     }
-  }, [state]);
+  }, [state, user, role, updateList]);
 
   return (
     <section className={styles.container}>

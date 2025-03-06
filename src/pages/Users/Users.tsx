@@ -59,7 +59,7 @@ function UsersPage() {
         />
         {
           currentUser &&
-          <User id={currentUser} />
+          <User id={currentUser} updateList={fetchList} />
         }
       </div>
     </AdminLayout>

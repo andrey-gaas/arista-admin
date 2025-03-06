@@ -1,8 +1,8 @@
 import { makeAutoObservable } from "mobx";
-import { TUser, TUsersListQuery } from "../types/users";
+import { TUser, TUserEditBody, TUsersListQuery } from "../types/users";
 import usersApi from "../api/UsersApi";
 
-type TUsersType = "list" | "user";
+type TUsersType = "list" | "user" | "edit";
 
 class UsersStore {
   list: TUser[] | null = null;
@@ -12,11 +12,13 @@ class UsersStore {
   loading = {
     list: false,
     user: false,
+    edit: false,
   }
 
   errors = {
     list: "",
     user: "",
+    edit: "",
   }
 
   constructor() {
@@ -90,6 +92,32 @@ class UsersStore {
       }
       finally {
         this.setLoading(false, 'user');
+      }
+    }
+  }
+
+  async fetchEditUser(_id: string, body: TUserEditBody) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.setLoading(true, "edit");
+      this.setErrors("", "edit");
+
+      try {
+        const result = await usersApi.fetchEditUser(token, _id, body);
+
+        if (result.status === 200) {
+          this.setUser(result.data);
+        } else if (result.status === 404) {
+          this.setErrors("Пользователь не найден", "edit");
+        } else {
+          this.setErrors("Ошибка редактирования пользователя", "edit");
+        }
+      }
+      catch (error) {
+        console.log(error);
+        this.setErrors("Ошибка редактирования пользователя", 'edit');
+      } finally {
+        this.setLoading(false, 'edit');
       }
     }
   }

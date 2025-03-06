@@ -58,15 +58,15 @@ function List(props: TListProps) {
                 className={`${styles.user} ${usersStore.user?._id === user._id && styles.active}`}
                 onClick={() => selectUser(user._id)}
               >
-                <span className={styles['user-text']}>{user.name}</span>
-                <span className={styles['user-text']}><b>{getRoleName(user.role)}</b></span>
+                <span className={styles['user-text']}><b>{user.name}</b></span>
+                <span className={styles['user-text']}><i>{getRoleName(user.role)}</i></span>
               </article>
             ))
           }
         </div>
       </section>
       {
-        usersStore.count &&
+        usersStore.count !== null &&
         <Pagination
           listSize={usersStore.count}
           page={page}
