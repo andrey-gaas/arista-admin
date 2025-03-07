@@ -32,3 +32,12 @@ export type TUserEditBody = {
   pvz?: string;
 };
 export type TUserEditResult = TUser;
+
+export type TUserCreateBody = {
+  name: string;
+  email: string;
+  password: string;
+  role: TRole;
+  pvz?: string;
+};
+export type TUserCreateResult = TUser;

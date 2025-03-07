@@ -15,9 +15,9 @@ type TOption = {
 function UsersPage() {
   const roles: TOption[] = useMemo(() => [
     { value: 'all', label: 'Все' },
-    { value: 'admin', label: 'Администраторы' },
-    { value: 'partner', label: 'Партнеры' },
-    { value: 'manager', label: 'Менеджеры' },
+    { value: 'admin', label: 'Администратор' },
+    { value: 'partner', label: 'Партнер' },
+    { value: 'manager', label: 'Менеджер' },
   ], []);
   const listItemsCount = useMemo(() => 6, []);
 

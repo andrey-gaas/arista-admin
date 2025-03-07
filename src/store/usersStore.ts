@@ -1,8 +1,9 @@
 import { makeAutoObservable } from "mobx";
-import { TUser, TUserEditBody, TUsersListQuery } from "../types/users";
+import { TUser, TUserEditBody, TUsersListQuery, TUserCreateBody } from "../types/users";
 import usersApi from "../api/UsersApi";
+import authApi from "../api/AuthApi";
 
-type TUsersType = "list" | "user" | "edit";
+type TUsersType = "list" | "user" | "edit" | "create";
 
 class UsersStore {
   list: TUser[] | null = null;
@@ -13,12 +14,14 @@ class UsersStore {
     list: false,
     user: false,
     edit: false,
+    create: false,
   }
 
   errors = {
     list: "",
     user: "",
     edit: "",
+    create: "",
   }
 
   constructor() {
@@ -118,6 +121,32 @@ class UsersStore {
         this.setErrors("Ошибка редактирования пользователя", 'edit');
       } finally {
         this.setLoading(false, 'edit');
+      }
+    }
+  }
+
+  async fetchCreateUser(body: TUserCreateBody) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.setLoading(true, "create");
+      this.setErrors("", "create");
+
+      try {
+        const result = await authApi.fetchRegister(token, body);
+
+        if (result.status == 200) {
+          this.setUser(result.data);
+          if (this.list) {
+            this.setList([result.data, ...this.list]);
+          }
+        } else {
+          this.setErrors("Ошибка создания пользователя", "create");
+        }
+      } catch (error) {
+        console.log(error);
+        this.setErrors("Ошибка создания пользователя", 'create');
+      } finally {
+        this.setLoading(false, 'create');
       }
     }
   }

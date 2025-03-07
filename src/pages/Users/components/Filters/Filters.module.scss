@@ -11,3 +11,46 @@
 .button {
   margin-left: auto;
 }
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.input {
+  margin-top: 30px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.dropdowns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.modal-input {
+  margin-top: 35px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 10px;
+}
+
+.error {
+  margin: 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--red);
+}
