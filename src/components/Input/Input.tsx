@@ -7,7 +7,7 @@ type TInputProps = {
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 	label?: string;
 	placeholder?: string;
-	type?: 'text' | 'email' | 'password' | 'search' | 'number';
+	type?: 'text' | 'email' | 'password' | 'search' | 'number' | 'date';
 	name?: string;
 	className?: string;
 	error?: string;

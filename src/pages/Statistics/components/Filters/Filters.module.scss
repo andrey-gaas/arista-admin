@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  margin-left: 20px;
+  width: 200px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.dropdown {
+  margin-left: 100px;
+}

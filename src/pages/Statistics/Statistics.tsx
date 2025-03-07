@@ -1,9 +1,12 @@
 import { AdminLayout } from '../../layouts';
+import { Filters } from './components';
+
+// import styles from './Statistics.module.scss';
 
 function StatisticsPage() {
   return (
     <AdminLayout title="Статистика">
-      <h1>Статистика</h1>
+      <Filters />
     </AdminLayout>
   );
 }
