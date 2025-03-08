@@ -1,6 +1,7 @@
 import { useState, useCallback, ChangeEvent, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import ordersStore from '../../../../store/ordersStore';
+import authStore from '../../../../store/authStore';
 import { TOrderStatus } from '../../../../types/orders';
 
 import { Dropdown, Input } from '../../../../components';
@@ -34,16 +35,21 @@ function Filters() {
   }, [searchType]);
 
   useEffect(() => {
+    const pvz = authStore.user?.pvz;
+
     if (searchType.value === 'status') {
-      if (status === 'all') {
-        ordersStore.fetchOrdersByStatus();
-      } else {
-        ordersStore.fetchOrdersByStatus(status);
-      }
+      const query = {
+        ...(status === 'all' ? {} : { status }),
+        ...(pvz ? { pvz } : {}),
+      };
+      ordersStore.fetchOrdersByStatus(query);
     }
 
     if (searchType.value === 'client') {
-      ordersStore.fetchOrdersByQRCode(search);
+      const query = {
+        ...(pvz ? { pvz } : {}),
+      };
+      ordersStore.fetchOrdersByQRCode(query, search);
     }
 
     if (searchType.value === 'barcode') {

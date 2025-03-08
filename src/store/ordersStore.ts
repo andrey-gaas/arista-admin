@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import ordersApi from "../api/OrdersApi";
-import { TOrder, TOrderStatus, TEditOrderQuery } from '../types/orders';
+import { TOrder, TEditOrderQuery, TOrderListByStatusQuery, TOrderListByQRCodeQuery } from '../types/orders';
 
 type TOrdersType = "list" | "order" | "status" | "remove" | "message" | "edit";
 
@@ -51,7 +51,7 @@ class OrdersStore {
     this.timer = value;
   }
 
-  async fetchOrdersByStatus(status?: TOrderStatus, skip?: number, limit?: number) {
+  async fetchOrdersByStatus(query: TOrderListByStatusQuery) {
     this.setLoading(true, 'list');
     this.setError("", 'list');
     this.setOrders(null);
@@ -59,7 +59,7 @@ class OrdersStore {
 
     if (token) {
       try {
-        const result = await ordersApi.fetchListByStatus(token, { status, skip, limit });
+        const result = await ordersApi.fetchListByStatus(token, query);
 
         if (result.status === 200) {
           this.setOrders(result.data);
@@ -75,7 +75,7 @@ class OrdersStore {
     }
   }
 
-  async fetchOrdersByQRCode(code: string, skip?: number, limit?: number) {
+  async fetchOrdersByQRCode(query: TOrderListByQRCodeQuery, code: string) {
     this.setError("", 'list');
     this.setOrders(null);
 
@@ -94,7 +94,7 @@ class OrdersStore {
     if (token) {
       const timer = setTimeout(async () => {
         try {
-          const result = await ordersApi.fetchListByQRCode(token, { code, skip, limit });
+          const result = await ordersApi.fetchListByQRCode(token, code, query);
 
           if (result.status === 200) {
             if (result.data.length === 0) {

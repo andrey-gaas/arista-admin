@@ -36,6 +36,7 @@ class AuthStore {
   async fetchLogin(email: string, password: string) {
     this.setLoading(true, 'login');
     this.setError("", 'login');
+    this.setUser(null);
 
     try {
       const result = await authApi.login(email, password);
@@ -45,6 +46,7 @@ class AuthStore {
           name: result.data.name,
           email: result.data.email,
           role: result.data.role,
+          pvz: result.data.pvz,
         };
         this.setUser(user);
         localStorage.setItem('token', result.data.token);
@@ -63,6 +65,7 @@ class AuthStore {
     if (token && !this.user) {
       this.setLoading(true, "profile");
       this.setError("", 'profile');
+      this.setUser(null);
 
       try {
         const result = await authApi.fetchProfile(token);

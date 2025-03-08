@@ -39,11 +39,12 @@ export type TOrderListByStatusQuery = {
   status?: TOrderStatus;
   skip?: number;
   limit?: number;
+  pvz?: string;
 };
 export type TOrderListResult = TOrder[];
 
 export type TOrderListByQRCodeQuery = {
-  code: string;
+  pvz?: string;
   skip?: number;
   limit?: number;
 };

@@ -22,10 +22,10 @@ class OrdersApi {
       .catch(({ response }) => ({ ...response }));
   }
 
-  async fetchListByQRCode(token: string, query: TOrderListByQRCodeQuery): Promise<TAxiosResult<TOrderListByQRCodeResult>> {
+  async fetchListByQRCode(token: string, code: string, query: TOrderListByQRCodeQuery): Promise<TAxiosResult<TOrderListByQRCodeResult>> {
     return axios
-      .get(`/order/code/${query.code}`, {
-        params: { skip: query.skip, limit: query.limit },
+      .get(`/order/code/${code}`, {
+        params: query,
         headers: {
           Authorization: `Bearer ${token}`,
         },
