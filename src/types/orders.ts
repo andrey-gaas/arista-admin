@@ -1,4 +1,4 @@
-import { TUser } from './auth';
+import { TUser } from './users';
 
 export type TMarket = "ozon" | "wb";
 export type TOrderStatus = "added" | "works" | "delivered" | "issued" | "rejected" | "all";
@@ -26,6 +26,7 @@ export type TOrder = {
   price: number;
   profit: number;
   cell: number;
+  dateIssued?: number;
 };
 
 export type TProduct = {

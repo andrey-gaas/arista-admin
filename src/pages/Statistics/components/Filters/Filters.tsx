@@ -34,7 +34,7 @@ function Filters() {
   const getEndDate = () => {
     const date = new Date();
     date.setHours(23, 59, 59, 999);
-    return date;
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000);
   };
 
   const [market, setMarket] = useState<TOption>(markets[0]);
@@ -50,9 +50,14 @@ function Filters() {
   }, []);
 
   useEffect(() => {
+    const parseDateToUTC = (dateString: string) => {
+      const date = new Date(dateString);
+      return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+    };
+
     const query = {
-      start: +new Date(startDate),
-      end: +new Date(endDate),
+      start: parseDateToUTC(startDate),
+      end: parseDateToUTC(endDate),
       ...(market.value !== 'all' ? { market: market.value } : {})
     };
 
