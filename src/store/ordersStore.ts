@@ -3,6 +3,7 @@ import ordersApi from "../api/OrdersApi";
 import {
   TOrder, TEditOrderQuery, TOrderListByStatusQuery,
   TOrderListByQRCodeQuery, TOrderListByBarcodeQuery,
+  TOrderListByPhoneQuery,
 } from '../types/orders';
 
 type TOrdersType = "list" | "order" | "status" | "remove" | "message" | "edit";
@@ -161,11 +162,11 @@ class OrdersStore {
     }
   }
 
-  async fetchOrdersByPhone(phone: string, skip?: number, limit?: number) {
+  async fetchOrdersByPhone(query: TOrderListByPhoneQuery) {
     this.setError("", 'list');
     this.setOrders(null);
 
-    if (!phone) {
+    if (!query.phone) {
       return this.setError("Введите номер телефона", 'list');
     }
 
@@ -180,7 +181,7 @@ class OrdersStore {
     if (token) {
       const timer = setTimeout(async () => {
         try {
-          const result = await ordersApi.fetchListByPhone(token, { phone, skip, limit });
+          const result = await ordersApi.fetchListByPhone(token, query);
 
           if (result.status === 200) {
             if (result.data.length === 0) {

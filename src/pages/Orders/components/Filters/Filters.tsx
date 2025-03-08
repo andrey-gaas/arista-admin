@@ -60,7 +60,11 @@ function Filters() {
     }
 
     if (searchType.value === 'phone') {
-      ordersStore.fetchOrdersByPhone(search);
+      const query = {
+        phone: search,
+        ...(pvz ? { pvz } : {}),
+      };
+      ordersStore.fetchOrdersByPhone(query);
     }
   }, [status, searchType, search]);
 

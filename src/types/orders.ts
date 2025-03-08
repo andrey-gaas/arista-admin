@@ -59,6 +59,7 @@ export type TOrderListByBarcodeResult = TOrder[];
 
 export type TOrderListByPhoneQuery = {
   phone: string;
+  pvz?: string;
   skip?: number;
   limit?: number;
 };
