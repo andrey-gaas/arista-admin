@@ -53,7 +53,10 @@ function Filters() {
     }
 
     if (searchType.value === 'barcode') {
-      ordersStore.fetchOrdersByBarcode(search);
+      const query = {
+        ...(pvz ? { pvz } : {}),
+      };
+      ordersStore.fetchOrdersByBarcode(query, search);
     }
 
     if (searchType.value === 'phone') {

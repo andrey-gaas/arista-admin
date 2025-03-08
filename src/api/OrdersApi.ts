@@ -34,10 +34,10 @@ class OrdersApi {
       .catch(({ response }) => ({ ...response }));
   }
 
-  async fetchListByBarcode(token: string, query: TOrderListByBarcodeQuery): Promise<TAxiosResult<TOrderListByBarcodeResult>> {
+  async fetchListByBarcode(token: string, barcode: string, query: TOrderListByBarcodeQuery): Promise<TAxiosResult<TOrderListByBarcodeResult>> {
     return await axios
-      .get(`/order/code-order/${query.barcode}`, {
-        params: { skip: query.skip, limit: query.limit },
+      .get(`/order/code-order/${barcode}`, {
+        params: query,
         headers: {
           Authorization: `Bearer ${token}`,
         },

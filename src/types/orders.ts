@@ -51,7 +51,7 @@ export type TOrderListByQRCodeQuery = {
 export type TOrderListByQRCodeResult = TOrder[];
 
 export type TOrderListByBarcodeQuery = {
-  barcode: string;
+  pvz?: string;
   skip?: number;
   limit?: number;
 };

@@ -1,6 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import ordersApi from "../api/OrdersApi";
-import { TOrder, TEditOrderQuery, TOrderListByStatusQuery, TOrderListByQRCodeQuery } from '../types/orders';
+import {
+  TOrder, TEditOrderQuery, TOrderListByStatusQuery,
+  TOrderListByQRCodeQuery, TOrderListByBarcodeQuery,
+} from '../types/orders';
 
 type TOrdersType = "list" | "order" | "status" | "remove" | "message" | "edit";
 
@@ -119,7 +122,7 @@ class OrdersStore {
     }
   }
 
-  async fetchOrdersByBarcode(barcode: string, skip?: number, limit?: number) {
+  async fetchOrdersByBarcode(query: TOrderListByBarcodeQuery, barcode: string) {
     this.setError("", 'list');
     this.setOrders(null);
 
@@ -138,7 +141,7 @@ class OrdersStore {
     if (token) {
       const timer = setTimeout(async () => {
         try {
-          const result = await ordersApi.fetchListByBarcode(token, { barcode, skip, limit });
+          const result = await ordersApi.fetchListByBarcode(token, barcode, query);
 
           if (result.status === 200) {
             this.setOrders(result.data);
