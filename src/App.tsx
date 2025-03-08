@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import authStore from './store/authStore';
@@ -24,13 +23,13 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/orders" element={<PrivateRoute><OrdersPage /></PrivateRoute>} />
-        <Route path="/clients" element={<PrivateRoute><ClientsPage /></PrivateRoute>} />
-        <Route path="/pvz" element={<PrivateRoute><PVZPage /></PrivateRoute>} />
-        <Route path="/statistics" element={<PrivateRoute><StatisticsPage /></PrivateRoute>} />
-        <Route path="/partners" element={<PrivateRoute><PartnersPage /></PrivateRoute>} />
-        <Route path="/users" element={<PrivateRoute><UsersPage /></PrivateRoute>} />
-        <Route path="/transportation" element={<PrivateRoute><TransportationPage /></PrivateRoute>} />
+        <Route path="/orders" element={<PrivateRoute allowedRoles={['admin', 'partner', 'manager']}><OrdersPage /></PrivateRoute>} />
+        <Route path="/clients" element={<PrivateRoute allowedRoles={['admin', 'partner', 'manager']}><ClientsPage /></PrivateRoute>} />
+        <Route path="/pvz" element={<PrivateRoute allowedRoles={['admin']}><PVZPage /></PrivateRoute>} />
+        <Route path="/statistics" element={<PrivateRoute allowedRoles={['admin', 'partner']}><StatisticsPage /></PrivateRoute>} />
+        <Route path="/partners" element={<PrivateRoute allowedRoles={['admin']}><PartnersPage /></PrivateRoute>} />
+        <Route path="/users" element={<PrivateRoute allowedRoles={['admin']}><UsersPage /></PrivateRoute>} />
+        <Route path="/transportation" element={<PrivateRoute allowedRoles={['admin', 'partner', 'manager']}><TransportationPage /></PrivateRoute>} />
       </Routes>
     </Router>
   );

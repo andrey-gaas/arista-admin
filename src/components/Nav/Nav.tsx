@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { Link, useMatch } from 'react-router-dom';
 import authStore from '../../store/authStore';
+import { TRole } from '../../types/users';
 
 import styles from './Nav.module.scss';
 import logoSrc from '../../assets/images/logo.png';
@@ -17,6 +18,8 @@ function Nav() {
   const logout = () => {
     authStore.logout();
   };
+
+  let role = authStore.user.role;
 
   return (
     <nav className={styles.nav}>
@@ -37,26 +40,38 @@ function Nav() {
             Клиенты
           </Link>
         </li>
-        <li>
-          <Link to="/pvz" className={pvzMatch ? styles.active : ""}>
-            ПВЗ
-          </Link>
-        </li>
-        <li>
-          <Link to="/statistics" className={statisticsMatch ? styles.active : ""}>
-            Статистика
-          </Link>
-        </li>
-        <li>
-          <Link to="/partners" className={partnersMatch ? styles.active : ""}>
-            Партнеры
-          </Link>
-        </li>
-        <li>
-          <Link to="/users" className={usersMatch ? styles.active : ""}>
-            Пользователи
-          </Link>
-        </li>
+        {
+          role === 'admin' &&
+          <li>
+            <Link to="/pvz" className={pvzMatch ? styles.active : ""}>
+              ПВЗ
+            </Link>
+          </li>
+        }
+        {
+          (role === 'admin' || role === 'partner') &&
+          <li>
+            <Link to="/statistics" className={statisticsMatch ? styles.active : ""}>
+              Статистика
+            </Link>
+          </li>
+        }
+        {
+          role === 'admin' &&
+          <li>
+            <Link to="/partners" className={partnersMatch ? styles.active : ""}>
+              Партнеры
+            </Link>
+          </li>
+        }
+        {
+          role === 'admin' &&
+          <li>
+            <Link to="/users" className={usersMatch ? styles.active : ""}>
+              Пользователи
+            </Link>
+          </li>
+        }
       </ul>
       <section className={styles.user}>
         {
