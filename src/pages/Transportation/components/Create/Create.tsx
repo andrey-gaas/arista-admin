@@ -74,8 +74,11 @@ function CreateModal(props: TCreateModalProps) {
   }, [isOpen]);
 
   const toggleModal = useCallback(() => {
+    if (isOpenModal) {
+      setModalProducts([]);
+    }
     setOpenModal(value => !value);
-  }, []);
+  }, [isOpenModal]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -193,8 +196,8 @@ function CreateModal(props: TCreateModalProps) {
                   {loading && <div className={styles['modal-loader']}><Loader /></div>}
                 </div>
                 <div className={styles['modal-buttons']}>
-                  <Button variant="primary" onClick={addProducts}>Добавить</Button>
                   <Button variant="danger" onClick={toggleModal}>Отмена</Button>
+                  <Button variant="primary" onClick={addProducts}>Добавить</Button>
                 </div>
               </Modal>
             </section>
