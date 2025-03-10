@@ -50,14 +50,10 @@ function Filters() {
   }, []);
 
   useEffect(() => {
-    const parseDateToUTC = (dateString: string) => {
-      const date = new Date(dateString);
-      return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
-    };
-
+    const date = new Date(endDate);
     const query = {
-      start: parseDateToUTC(startDate),
-      end: parseDateToUTC(endDate),
+      start: +new Date(startDate),
+      end: +date.setDate(date.getDate() + 1),
       ...(market.value !== 'all' ? { market: market.value } : {})
     };
 
