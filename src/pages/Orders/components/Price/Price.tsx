@@ -24,6 +24,7 @@ const ozonMaxPrice = 5000;
 
 function Price(props: TPriceProps) {
   const { marketplace, productsCount, totalPrice, setTotalPrice, profit, setProfit, status } = props;
+
   const [expensiveProducts, setExpensiveProducts] = useState<TExpensiveProduct[]>([]);
   const [error, setError] = useState("");
 
@@ -33,45 +34,47 @@ function Price(props: TPriceProps) {
   }, [setTotalPrice]);
 
   useEffect(() => {
-    setError("");
+    if (status === 'added') {
+      setError("");
 
-    if (productsCount > 0 && +totalPrice) {
-      if (marketplace === 'wb') {
-        setProfit(+totalPrice / 100 * 5);
+      if (productsCount > 0 && +totalPrice) {
+        if (marketplace === 'wb') {
+          setProfit(+totalPrice / 100 * 5);
+        } else {
+          const expensiveSum = expensiveProducts.reduce((sum, product) => sum + product.price, 0);
+          const regularProductsCount = productsCount - expensiveProducts.length;
+          const regularSum = +totalPrice - expensiveSum;
+          const regularAverage = regularProductsCount > 0 ? regularSum / regularProductsCount : 0;
+
+          if (expensiveSum > +totalPrice) {
+            setError("Сумма дорогих товаров не может превышать общую стоимость");
+            setProfit(null);
+            return;
+          }
+
+          if (expensiveProducts.length < productsCount && expensiveSum === +totalPrice) {
+            setError("Количество дорогих товаров не соответствует общей стоимости");
+            setProfit(null);
+            return;
+          }
+
+          const hasInvalidExpensiveProduct = expensiveProducts.some(product => product.price < ozonMaxPrice);
+
+          if (hasInvalidExpensiveProduct) {
+            setProfit(null);
+            return;
+          }
+
+          const expensiveProfit = expensiveProducts.reduce((sum) => sum + (ozonMaxPrice / 100 * 5), 0);
+          const regularProfit = regularProductsCount > 0
+            ? regularProductsCount * Math.min(regularAverage / 100 * 5, 250)
+            : 0;
+
+          setProfit(expensiveProfit + regularProfit);
+        }
       } else {
-        const expensiveSum = expensiveProducts.reduce((sum, product) => sum + product.price, 0);
-        const regularProductsCount = productsCount - expensiveProducts.length;
-        const regularSum = +totalPrice - expensiveSum;
-        const regularAverage = regularProductsCount > 0 ? regularSum / regularProductsCount : 0;
-
-        if (expensiveSum > +totalPrice) {
-          setError("Сумма дорогих товаров не может превышать общую стоимость");
-          setProfit(null);
-          return;
-        }
-
-        if (expensiveProducts.length < productsCount && expensiveSum === +totalPrice) {
-          setError("Количество дорогих товаров не соответствует общей стоимости");
-          setProfit(null);
-          return;
-        }
-
-        const hasInvalidExpensiveProduct = expensiveProducts.some(product => product.price < ozonMaxPrice);
-
-        if (hasInvalidExpensiveProduct) {
-          setProfit(null);
-          return;
-        }
-
-        const expensiveProfit = expensiveProducts.reduce((sum) => sum + (ozonMaxPrice / 100 * 5), 0);
-        const regularProfit = regularProductsCount > 0
-          ? regularProductsCount * Math.min(regularAverage / 100 * 5, 250)
-          : 0;
-
-        setProfit(expensiveProfit + regularProfit);
+        setProfit(null);
       }
-    } else {
-      setProfit(null);
     }
   }, [marketplace, totalPrice, expensiveProducts, productsCount, setProfit]);
 

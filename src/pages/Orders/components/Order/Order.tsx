@@ -24,7 +24,6 @@ function Order(props: TOrderProps) {
   const [totalPrice, setTotalPrice] = useState('');
   const [profit, setProfit] = useState<number | null>(null);
 
-
   useEffect(() => {
     fetchOrder(id);
   }, [id]);
