@@ -1,3 +1,4 @@
+import { TPvz } from './pvz';
 import { TUser } from './users';
 
 export type TMarket = "ozon" | "wb";
@@ -29,9 +30,13 @@ export type TOrder = {
   dateIssued?: number;
 };
 
+export type TProductHistoryItem = { type: 'create' | 'transportation_start' | 'transportation_end' | 'issued', date: number, user: string };
+
 export type TProduct = {
   code: string;
   status: 'added' | 'in_transit' | 'delivered';
+  place: TPvz | "Fulfillment center";
+  history?: TProductHistoryItem[];
 };
 
 // Fetch Types

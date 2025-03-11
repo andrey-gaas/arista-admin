@@ -51,16 +51,14 @@ function Order(props: TOrderProps) {
         return;
       }
 
+      // СТАТУС 'Добавлен'
       if (status === 'added') {
         await pvzStore.fetchRemoveCell(order.address._id, { type: order.market, order: order._id });
         await ordersStore.fetchEditOrder(_id, { status });
       }
 
-      if (status === 'works' && order.status !== 'added') {
-        await ordersStore.fetchEditOrder(_id, { status });
-      }
-
-      if (status === 'works' && order.status === 'added') {
+      // СТАТУС 'В работе'
+      if (status === 'works') {
         if (products.length === 0) {
           ordersStore.setError("Добавьте товары в заказ", "status");
           return;
@@ -76,7 +74,9 @@ function Order(props: TOrderProps) {
           return;
         }
 
-        await pvzStore.fetchSetCell(order.address._id, { order: order._id, type: order.market })
+        if (order.status === 'added' || order.status === 'issued' || order.status === 'rejected') {
+          await pvzStore.fetchSetCell(order.address._id, { order: order._id, type: order.market });
+        }
         await ordersStore.fetchEditOrder(_id, {
           products,
           price: Number(totalPrice),
@@ -85,6 +85,7 @@ function Order(props: TOrderProps) {
         });
       }
 
+      // СТАТУС 'Готов к выдаче'
       if (status === 'delivered') {
         if (order.status === 'added') {
           ordersStore.setError("Заказ не может быть доставлен, пока он не будет отправлен", "status");
@@ -101,6 +102,7 @@ function Order(props: TOrderProps) {
         await ordersStore.fetchEditOrder(_id, { status });
       }
 
+      // СТАТУС 'Выдан'
       if (status === 'issued') {
         if (order.status !== 'delivered') {
           ordersStore.setError("Заказ не может быть выдан, пока он не будет доставлен", "status");
@@ -111,6 +113,7 @@ function Order(props: TOrderProps) {
         await ordersStore.fetchEditOrder(_id, { status });
       }
 
+      // СТАТУС 'Отклонен'
       if (status === 'rejected') {
         await pvzStore.fetchRemoveCell(order.address._id, { type: order.market, order: order._id });
         await ordersStore.fetchEditOrder(_id, { status });

@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef, memo } from 'react';
 import { observer } from 'mobx-react-lite';
 import ordersStore from '../../../../store/ordersStore';
+import authStore from '../../../../store/authStore';
 
 import { PackagePlus, Truck, PackageCheck } from 'lucide-react';
 import { Button, Icon, Modal, Loader } from '../../../../components';
@@ -89,7 +90,21 @@ function Products(props: TProductsProps) {
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
       if (value.trim() !== '') {
-        setModalProducts(prev => [...prev.map(item => ({ ...item })), { code: value, status: 'added' }]);
+        setModalProducts(
+          prev => [
+            ...prev.map(item => ({ ...item })),
+            {
+              code: value,
+              status: 'added',
+              place: "Fulfillment center",
+              history: [{
+                type: 'create',
+                date: Date.now(),
+                user: authStore.user?.name as string,
+              }]
+            }
+          ]
+        );
         setInputValue('');
       }
     }, 500);
