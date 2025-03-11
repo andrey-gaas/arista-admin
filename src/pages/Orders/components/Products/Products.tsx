@@ -117,10 +117,10 @@ function Products(props: TProductsProps) {
         {products.length === 0 && <p className={styles.message}>Список пуст</p>}
         {products.length > 0 && (
           <div>
-            {products.map((product, i) => (
+            {products.map(product => (
               <article key={product.code} className={styles.product}>
-                <span>Товар № {i + 1}</span>
                 <span>Код: {product.code}</span>
+                <span>{product.place === 'Fulfillment center' ? "ЦВЗ" : product.place.address}</span>
                 <div>
                   {
                     (product.status === 'added' && status !== 'added') &&
