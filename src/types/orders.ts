@@ -4,10 +4,19 @@ import { TUser } from './users';
 export type TMarket = "ozon" | "wb";
 export type TOrderStatus = "added" | "works" | "delivered" | "issued" | "rejected" | "all";
 
+type TOrderPvzInfo = {
+  max: number;
+  cells: {
+    number: number;
+    order: string;
+  }[];
+};
 
 export type TOrderAddress = {
   address?: string;
   _id: string;
+  ozon: TOrderPvzInfo;
+  wb: TOrderPvzInfo;
 };
 
 export type TOrder = {

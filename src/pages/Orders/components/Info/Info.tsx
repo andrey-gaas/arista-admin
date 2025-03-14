@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { useState, useMemo, memo } from "react";
 import { Link } from "react-router-dom";
 
 import { Icon } from '../../../../components';
@@ -13,6 +13,14 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 function Info(props: TInfoProps) {
   const { order } = props;
+
+  const cell = useMemo(() => {
+    if (order.market === 'ozon') {
+      return order.address.ozon.cells.find(item => item.order === order._id)
+    } else {
+      return order.address.wb.cells.find(item => item.order === order._id);
+    }
+  }, [order]);
 
   const [photo, setPhoto] = useState<string | null>(null);
 
@@ -34,7 +42,7 @@ function Info(props: TInfoProps) {
           <p className={styles['order-info-data']}>Адрес ПВЗ Ариста: <b>{order.address.address}</b></p>
           <p className={styles['order-info-data']}>Дата создания: <b>{getDate(order.date)}</b></p>
           <p className={styles['order-info-data']}>Торговая площадка: <b>{order.market === 'ozon' ? "OZON" : "Wildberries"}</b></p>
-          {order.cell !== undefined && <p className={styles['order-info-data']}>Номер ячейки: <b>{order.cell + 1}</b></p>}
+          {Number.isInteger(cell?.number) ? <p className={styles['order-info-data']}>Номер ячейки: <b>{cell.number + 1}</b></p> : null}
           <h6 className={styles['order-info-title']}>Информация о клиенте:</h6>
           <p className={styles['order-info-data']}>Клиент: <b>{order.user.phone}</b></p>
           <p className={styles['order-info-data']}>Код клиента: <b>{order.user.code}</b></p>
