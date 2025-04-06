@@ -111,9 +111,6 @@ function Products(props: TProductsProps) {
     }, 500);
   };
 
-  console.log('products', products);
-
-
   return (
     <section className={styles.container}>
       <h3 className={styles.title}>Список товаров</h3>

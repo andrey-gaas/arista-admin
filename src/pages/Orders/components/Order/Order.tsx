@@ -92,10 +92,17 @@ function Order(props: TOrderProps) {
           return;
         }
 
-        const findedProducts = order.products.find(product => product.status !== 'delivered');
+        let findedProducts = order.products.find(product => product.status !== 'delivered');
 
         if (findedProducts) {
           ordersStore.setError("Для перехода в статус 'Доставлено' все товары должны быть доставлены!", "status");
+          return;
+        }
+
+        findedProducts = order.products.find(product => (product.place !== 'Fulfillment center' && product.place._id !== order.address._id));
+
+        if (findedProducts) {
+          ordersStore.setError("Все товары должны быть доставлены в соответсвующий ПВЗ", "status");
           return;
         }
 
