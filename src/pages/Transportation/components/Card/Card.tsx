@@ -18,6 +18,8 @@ function Card(props: TCardProps) {
 
   const [error, setError] = useState("");
 
+
+
   const [isOpenModal, setOpenModal] = useState(false);
   const [products, setProducts] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -44,15 +46,10 @@ function Card(props: TCardProps) {
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
       if (value.trim() !== '' && transportation) {
-        if (products.length === transportation.products.length) {
-          setScanError("Все товары уже просканированы");
-        } else if (products.includes(value)) {
+        if (products.includes(value)) {
           setScanError("Товар уже просканирован");
-        } else if (transportation.products.includes(value)) {
-          setProducts(products => [...products, value]);
-          setInputValue('');
         } else {
-          setScanError(`Товара нет в списке`);
+          setProducts(products => [...products, value]);
           setInputValue('');
         }
       }
@@ -62,10 +59,6 @@ function Card(props: TCardProps) {
   const complateTransportation = useCallback(async () => {
     setError("");
     if (transportation) {
-      if (products.length !== transportation.products.length) {
-        return setError("Для завершения перевозки необходимо просканировать все товары");
-      }
-
       const result = await transporationsStore.fetchFinish(transportation._id, products);
 
       if (result) {
@@ -142,6 +135,14 @@ function Card(props: TCardProps) {
                         products.includes(product) ?
                           <CircleCheckBig size={20} color="#42b883" /> : <Package size={20} color="#aaa" />
                       }
+                    </article>
+                  ))
+                }
+                {
+                  products.filter(product => !transportation.products.includes(product)).map(product => (
+                    <article key={product} className={`${styles.product} ${styles['extra-product']}`}>
+                      <span>Посторонний товар #{product}</span>
+                      <CircleCheckBig size={20} color="#42b883" />
                     </article>
                   ))
                 }

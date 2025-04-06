@@ -148,6 +148,7 @@ function Order(props: TOrderProps) {
                 products={products}
                 setProducts={setProducts}
                 status={order.status}
+                orderId={order.address._id}
               />
               <Price
                 marketplace={order.market}

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import ordersStore from '../../../../store/ordersStore';
 import authStore from '../../../../store/authStore';
 
-import { PackagePlus, Truck, PackageCheck } from 'lucide-react';
+import { PackagePlus, Truck, PackageCheck, PackageX } from 'lucide-react';
 import { Button, Icon, Modal, Loader } from '../../../../components';
 import { TOrderStatus, TProduct } from '../../../../types/orders';
 import styles from './Products.module.scss';
@@ -12,10 +12,11 @@ type TProductsProps = {
   products: TProduct[];
   setProducts: React.Dispatch<React.SetStateAction<TProduct[]>>;
   status: TOrderStatus;
+  orderId: string;
 };
 
 function Products(props: TProductsProps) {
-  const { products, setProducts, status } = props;
+  const { products, setProducts, status, orderId } = props;
 
   const [isOpen, setOpen] = useState(false);
   const [modalProducts, setModalProducts] = useState<TProduct[]>([]);
@@ -110,6 +111,9 @@ function Products(props: TProductsProps) {
     }, 500);
   };
 
+  console.log('products', products);
+
+
   return (
     <section className={styles.container}>
       <h3 className={styles.title}>Список товаров</h3>
@@ -131,8 +135,12 @@ function Products(props: TProductsProps) {
                     <Truck size={22} color="#eb890e" />
                   }
                   {
-                    product.status === 'delivered' &&
+                    (product.status === 'delivered' && product.place !== 'Fulfillment center' && product.place._id === orderId) &&
                     <PackageCheck size={22} color="#42b883" />
+                  }
+                  {
+                    (product.status === 'delivered' && product.place !== 'Fulfillment center' && product.place._id !== orderId) &&
+                    <PackageX size={22} color="#ec6d74" />
                   }
                 </div>
                 {
