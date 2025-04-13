@@ -1,5 +1,5 @@
 import { TPvz } from './pvz';
-import { TUser } from './auth';
+import { TUser } from './users';
 
 export type TTransportationStatus = "active" | "delivered";
 

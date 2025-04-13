@@ -92,7 +92,7 @@ function CreateModal(props: TCreateModalProps) {
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
       if (value.trim() !== '') {
-        setModalProducts(prev => [...prev, { code: value, status: 'in_transit' }]);
+        setModalProducts(prev => [...prev, { code: value, status: 'in_transit', place: 'Fulfillment center' }]);
         setInputValue('');
       }
     }, 500);

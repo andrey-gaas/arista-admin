@@ -42,7 +42,7 @@ function Info(props: TInfoProps) {
           <p className={styles['order-info-data']}>Адрес ПВЗ Ариста: <b>{order.address.address}</b></p>
           <p className={styles['order-info-data']}>Дата создания: <b>{getDate(order.date)}</b></p>
           <p className={styles['order-info-data']}>Торговая площадка: <b>{order.market === 'ozon' ? "OZON" : "Wildberries"}</b></p>
-          {Number.isInteger(cell?.number) ? <p className={styles['order-info-data']}>Номер ячейки: <b>{cell.number + 1}</b></p> : null}
+          {Number.isInteger(cell?.number) ? <p className={styles['order-info-data']}>Номер ячейки: <b>{cell && cell.number + 1}</b></p> : null}
           <h6 className={styles['order-info-title']}>Информация о клиенте:</h6>
           <p className={styles['order-info-data']}>Клиент: <b>{order.user.phone}</b></p>
           <p className={styles['order-info-data']}>Код клиента: <b>{order.user.code}</b></p>

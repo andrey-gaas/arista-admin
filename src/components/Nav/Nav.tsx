@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Link, useMatch } from 'react-router-dom';
 import authStore from '../../store/authStore';
-import { TRole } from '../../types/users';
 
 import styles from './Nav.module.scss';
 import logoSrc from '../../assets/images/logo.png';
@@ -19,7 +18,7 @@ function Nav() {
     authStore.logout();
   };
 
-  let role = authStore.user.role;
+  const role = authStore.user?.role || 'manager';
 
   return (
     <nav className={styles.nav}>
